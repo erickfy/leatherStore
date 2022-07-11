@@ -2,11 +2,61 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import AppBarStore from 'components/appbar'
+import Carrousel from 'components/carrousel'
 import Footer from 'components/footer';
+import { Divider, Grid, Typography } from '@mui/material'
+import image from 'imgs/jackOseaOprey.jpg'
+
 const Home: NextPage = () => {
   return(<>
-  Cards
+  <Carrousel/>
+<Grid container spacing={2} className={styles.container}>
+
+<Typography
+            variant="subtitle1"
+            noWrap
+            component="div"
+            align="left"
+            >
+              Venta de Temporada
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            noWrap={false }
+            paragraph
+            component="div"
+            align="left"
+            >
+              Compra ahora
+          </Typography>
+          <Grid container columns={{ xs: 12, sm: 12, }} columnSpacing={{xs: 12, sm: 10, md: 20 }}>
+            <Grid item xs={12} sm={6} md={6} >
+              <Image src={image} alt="leather jacket"/>
+            <Typography
+            variant="subtitle2"
+            noWrap
+            component="div"
+            align="left"
+            >
+              Zapatos
+          </Typography>
+            </Grid>
+            <Grid item>
+            <Image src={image} alt="leather jacket"/>
+
+            <Typography
+            variant="subtitle2"
+            noWrap
+            component="div"
+            align="left"
+            >
+              Chaquetas
+          </Typography>
+            </Grid>
+
+          </Grid>
+            </Grid>
+            <Divider/>
   </>);
 }
 

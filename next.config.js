@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   distDir: 'out',
+  target: 'serverless',
 }
 
 module.exports = nextConfig
