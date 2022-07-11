@@ -2,8 +2,17 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-
+import AppBarStore from 'components/appbar'
+import Footer from 'components/footer';
 const Home: NextPage = () => {
+  return(<>
+  Cards
+  </>);
+}
+
+export default Home
+
+/*
   return (
     <div className={styles.container}>
       <Head>
@@ -67,6 +76,4 @@ const Home: NextPage = () => {
       </footer>
     </div>
   )
-}
-
-export default Home
+*/
