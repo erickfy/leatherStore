@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import Carrousel from 'components/carrousel'
 import Footer from 'components/footer';
-import { Divider, Grid, Typography } from '@mui/material'
+import { Container, Divider, Grid, Typography } from '@mui/material'
 import image from 'imgs/jackOseaOprey.jpg'
 
 const Home: NextPage = () => {
@@ -31,17 +31,25 @@ const Home: NextPage = () => {
           </Typography>
           <Grid container columns={{ xs: 12, sm: 12, }} columnSpacing={{xs: 12, sm: 10, md: 20 }}>
             <Grid item xs={12} sm={6} md={6} >
+              <Grid className={styles.grid}>
+<div>
+
               <Image src={image} alt="leather jacket"/>
+              <Container className={styles.container_card}>
+
             <Typography
             variant="subtitle2"
             noWrap
-            component="div"
+            component=""
             align="left"
             >
               Zapatos
           </Typography>
+              </Container>
+              </div>
+              </Grid>
             </Grid>
-            <Grid item>
+            <Grid  item xs={12} sm={6} md={6} >
             <Image src={image} alt="leather jacket"/>
 
             <Typography
