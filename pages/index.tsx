@@ -40,7 +40,7 @@ const Home: NextPage = () => {
             <Typography
             variant="subtitle2"
             noWrap
-            component=""
+            component="div"
             align="left"
             >
               Zapatos
@@ -65,6 +65,9 @@ const Home: NextPage = () => {
           </Grid>
             </Grid>
             <Divider/>
+          <Grid container>
+
+          </Grid>
   </>);
 }
 
