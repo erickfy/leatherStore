@@ -11,10 +11,11 @@ const Home: NextPage = () => {
   return(<>
   <Carrousel/>
 <Grid container spacing={2} className={styles.container}>
+<div className={styles.container_title}>
 
 <Typography
             variant="subtitle1"
-            noWrap
+            // noWrap
             component="div"
             align="left"
             >
@@ -22,13 +23,14 @@ const Home: NextPage = () => {
           </Typography>
           <Typography
             variant="subtitle2"
-            noWrap={false }
+            // noWrap={false }
             paragraph
             component="div"
             align="left"
             >
               Compra ahora
           </Typography>
+            </div>
           <Grid container columns={{ xs: 12, sm: 12, }} columnSpacing={{xs: 12, sm: 10, md: 20 }}>
             <Grid item xs={12} sm={6} md={6} >
               <Grid className={styles.grid}>
@@ -50,6 +52,8 @@ const Home: NextPage = () => {
               </Grid>
             </Grid>
             <Grid  item xs={12} sm={6} md={6} >
+              <div className={styles.container_card}>
+
             <Image src={image} alt="leather jacket"/>
 
             <Typography
@@ -60,6 +64,7 @@ const Home: NextPage = () => {
             >
               Chaquetas
           </Typography>
+              </div>
             </Grid>
 
           </Grid>
