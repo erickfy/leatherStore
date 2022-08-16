@@ -1,16 +1,16 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import Carrousel from 'components/carrousel'
+import Carrousel from '@/components/carrousel'
+
 import Footer from 'components/footer';
 import { Container, Divider, Grid, Typography } from '@mui/material'
 import image from 'imgs/jackOseaOprey.jpg'
 
-const Home: NextPage = () => {
+const Home = () => {
   return(<>
   <Carrousel/>
-<Grid container spacing={2} className={styles.container}>
+<Grid container spacing={2}s className={styles.container}>
 <div className={styles.container_title}>
 
 <Typography
