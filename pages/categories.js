@@ -46,7 +46,7 @@ const Categories = () => {
               <Card.Body className={styles.cardBody}>
                 <Card.Text className={styles.cardText}>
                   Añadir al Carrito
-                  <p>X&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                  <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
                 </Card.Text>
                 <Card.Text className={styles.cardTextTitle}>
                   {i.title}

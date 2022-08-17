@@ -57,41 +57,37 @@ const Buying = () => {
           </Card>
         </Col>
         <Col xs={12} sm={4} md={6} className="text-left">
-
-        <Card border="light">
+          <Card border="light">
             {pro ? (
               <>
-                      <Card.Header className="text-center"> {pro[0].title}</Card.Header>
+                <Card.Header className="text-center">
+                  {" "}
+                  {pro[0].title}
+                </Card.Header>
                 <Card.Body>
                   <Card.Title>
-                  <span className={styles.textPrice}>{i.price}</span> &nbsp;
-                  <span style={{ color: "red" }}>{i.price}</span>
-                </Card.Title>
+                    <span className={styles.textPrice}>{i.price}</span> &nbsp;
+                    <span style={{ color: "red" }}>{i.price}</span>
+                  </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted text-center">
-<div className={styles.containerBorderSize}>
-    
-                  <span className={styles.borderSize}>S</span>&nbsp;
-                  <span className={styles.borderSize}>X</span>&nbsp;
-                  <span className={styles.borderSize}>L</span>&nbsp;
-                  <span className={styles.borderSize}>XL</span>&nbsp;
-                  <span className={styles.borderSize}>XLL</span>&nbsp;
-</div>
-
+                    <div className={styles.containerBorderSize}>
+                      <span className={styles.borderSize}>S</span>&nbsp;
+                      <span className={styles.borderSize}>X</span>&nbsp;
+                      <span className={styles.borderSize}>L</span>&nbsp;
+                      <span className={styles.borderSize}>XL</span>&nbsp;
+                      <span className={styles.borderSize}>XLL</span>&nbsp;
+                    </div>
                   </Card.Subtitle>
                   <Card.Subtitle className="bg-grey">
-                    Añadir al carrito <Button>Add</Button><span> heart</span>
+                    Añadir al carrito <Button>Add</Button>
+                    <span> heart</span>
                   </Card.Subtitle>
                 </Card.Body>
-
-             
-
               </>
             ) : (
               ""
             )}
           </Card>
-
-
         </Col>
       </Row>
     </Container>
