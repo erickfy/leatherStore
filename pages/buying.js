@@ -1,12 +1,25 @@
 import React from "react";
 import styles from "./Categories.module.css";
-import { Card, Col, Container, Row } from "react-bootstrap";
+import { Card, Carousel, Col, Container, Row } from "react-bootstrap";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import Button from "react-bootstrap/Button";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { pink } from "@mui/material/colors";
+import { Chip, Divider } from "@mui/material";
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 
 const Buying = () => {
   const [product, setProduct] = useState([]);
+  // const [matches, setMatches] = useState(false);
+  // const matchesAux = useMediaQuery('(max-width:600px)');
+// console.log(matchesAux)
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
+  const [index, setIndex] = useState(0);
+
   const pro = [
     {
       image:
@@ -25,6 +38,7 @@ const Buying = () => {
       // setFilteredProducts(data);
       console.log("data", data);
       setProduct(data);
+      // setMatches(matchesAux);
     };
 
     getProducts();
@@ -33,7 +47,7 @@ const Buying = () => {
   return (
     <Container className={styles.overalContainer}>
       <Row>
-        <Col xs={12} sm={8} md={6} className="d-flex justifiy-content-center">
+        <Col xs={12} sm={6} md={6} className="d-flex justify-content-center">
           <Card style={{ width: "18rem" }}>
             {pro ? (
               <>
@@ -56,12 +70,11 @@ const Buying = () => {
             )}
           </Card>
         </Col>
-        <Col xs={12} sm={4} md={6} className="text-left">
+        <Col xs={12} sm={6} md={6} className="text-left">
           <Card border="light">
             {pro ? (
               <>
                 <Card.Header className="text-center">
-                  {" "}
                   {pro[0].title}
                 </Card.Header>
                 <Card.Body>
@@ -79,15 +92,465 @@ const Buying = () => {
                     </div>
                   </Card.Subtitle>
                   <Card.Subtitle className="bg-grey">
-                    Añadir al carrito <Button>Add</Button>
-                    <span> heart</span>
+                    <Button variant="outline-primary">Añadir al carrito</Button>
+                    &nbsp;
+                    <Button variant="outline-danger">
+                      <FavoriteIcon />
+                    </Button>
                   </Card.Subtitle>
+                  <Card.Text>
+                    <br />
+                    <span>Notas: </span>
+                    <br />
+                    <span>
+                      De inspiración militar con detalles clásicos. La camisa
+                      Shimo está confeccionada en algodón con una textura
+                      ligeramente cepillada. Dos bolsillos en el pecho y cuadros
+                      listos para la primavera: es un elemento esencial para las
+                      capas. Cierre con botón Cuello clásico Manga larga Dos
+                      bolsillos en el pecho Textura ligeramente cepillada Estilo
+                      chaquetón Leather Clothes apoya un cultivo de cuero del
+                      mas fino posible para la elaboración y sostenibilidad.
+                      Buen de balance de masa
+                    </span>
+                    <br />
+                    <br />
+                    <span>Detalles: </span>
+                    <br />
+                    <span>
+                      Forma relajada y rockera 100% cuero Lavar a maquina al
+                      revés.
+                    </span>
+                  </Card.Text>
                 </Card.Body>
               </>
             ) : (
               ""
             )}
           </Card>
+        </Col>
+      </Row>
+      <Row className={styles.overalContainer}>
+        <Col lg={12}>
+          <Divider>
+            <Chip label="También te puede gustar" />
+          </Divider>
+
+          <Row>
+            <Col lg={12}>
+              <Carousel activeIndex={index} onSelect={handleSelect}>
+                {/* <Carousel.Item>
+                  <Row className={styles.carrouselOverlay}>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className={styles.colcarrouselItemVisible}
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className={styles.colcarrouselItem}
+                      style={{display: matches?"none":"flex"}}
+                      
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className={styles.colcarrouselItem}
+                      style={{display: matches?"none":"flex"}}                    
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className={styles.colcarrouselItem}
+                      style={{display: matches?"none":"flex"}}
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Carousel.Item> */}
+
+
+                
+                <Carousel.Item>
+                  <Row className={styles.carrouselOverlay}>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className={styles.colcarrouselItem}
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className="d-flex justify-content-center"
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className="d-flex justify-content-center"
+
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className="d-flex justify-content-center"
+
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Carousel.Item>
+                {/* <Carousel.Item>
+                  <Row className={styles.carrouselOverlay}>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className={styles.colcarrouselItem}
+
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className="d-flex justify-content-center"
+                      style={{display: matches?"none":"flex"}}
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className="d-flex justify-content-center"
+                      style={{display: matches?"none":"flex"}}
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={4}
+                      md={3}
+                      className="d-flex justify-content-center"
+                      style={{display: matches?"none":"flex"}}
+                    >
+                      <Card
+                        style={{ width: "18rem" }}
+                        className={styles.container_card}
+                      >
+                        <Card.Img
+                          variant="top"
+                          src={i.image}
+                          width={80}
+                          height={300}
+                        ></Card.Img>
+                        <Card.Body className={styles.cardBody}>
+                          <Card.Text className={styles.cardText}>
+                            Añadir al Carrito
+                            <p>S&nbsp;X&nbsp;L&nbsp;XL&nbsp;XLL</p>
+                          </Card.Text>
+                          <Card.Text className={styles.cardTextTitle}>
+                            {i.title}
+                          </Card.Text>
+                          <Card.Title>
+                            <span className={styles.textPrice}>{i.price}</span>{" "}
+                            &nbsp;
+                            <span style={{ color: "red" }}>{i.price}</span>
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
+                </Carousel.Item> */}
+              </Carousel>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Container>
