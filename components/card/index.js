@@ -1,7 +1,15 @@
 import React from 'react'
-
-export const Card = () => {
+import { Container, Row, Col } from 'react-bootstrap';
+ const Card = () => {
   return (
-    <div>Card</div>
+    <div>
+    <Container fluid>
+      <Row>
+        <Col>1 of 1</Col>
+      </Row>
+    </Container>
+
+    </div>
   )
 }
+export default Card;

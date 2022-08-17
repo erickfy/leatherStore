@@ -2,8 +2,8 @@ import { Typography } from "@mui/material";
 import Link from "next/link";
 import styles from "./Men.module.css";
 import Filter from '@/components/filter'
+import Card from '@/components/card'
 
-import Card from '../../components/card'
 function Home() {
   return (
     <div className={styles.container_title}>

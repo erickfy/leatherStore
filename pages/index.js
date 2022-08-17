@@ -1,25 +1,28 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Carrousel from '@/components/carrousel'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import Carrousel from "@/components/carrousel";
 
-import Footer from 'components/footer';
-import { Container, Divider, Grid, Typography } from '@mui/material'
-import image from 'imgs/jackOseaOprey.jpg'
-
+import Footer from "components/footer";
+import { Container, Divider, Grid, Typography } from "@mui/material";
+import image from "imgs/jackOseaOprey.jpg";
+import Categories from "./Categories";
+import Favourites from "./Favourites";
+import ProductType from "./ProductType";
+import Category from "./Category";
 const Home = () => {
-  return(<>
-  <Carrousel/>
-<Grid container spacing={2}s className={styles.container}>
-<div className={styles.container_title}>
-
-<Typography
+  return (
+    <>
+      <Carrousel />
+      <Grid container spacing={2} s className={styles.container}>
+        <div className={styles.container_title}>
+          <Typography
             variant="subtitle1"
             // noWrap
             component="div"
             align="left"
-            >
-              Venta de Temporada
+          >
+            Venta de Temporada
           </Typography>
           <Typography
             variant="subtitle2"
@@ -27,56 +30,93 @@ const Home = () => {
             paragraph
             component="div"
             align="left"
-            >
-              Compra ahora
+          >
+            Compra ahora
           </Typography>
+        </div>
+        <Grid
+          container
+          columns={{ xs: 12, sm: 12 }}
+          columnSpacing={{ xs: 12, sm: 10, md: 20 }}
+        >
+          <Grid item xs={12} sm={6} md={6}>
+            <Grid className={styles.grid}>
+              <div>
+                <Image src={image} alt="leather jacket" />
+                <Container className={styles.container_card}>
+                  <Typography
+                    variant="subtitle2"
+                    noWrap
+                    component="div"
+                    align="left"
+                  >
+                    Zapatos
+                  </Typography>
+                </Container>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <div className={styles.container_card}>
+              <Image src={image} alt="leather jacket" />
+
+              <Typography
+                variant="subtitle2"
+                noWrap
+                component="div"
+                align="left"
+              >
+                Chaquetas
+              </Typography>
             </div>
-          <Grid container columns={{ xs: 12, sm: 12, }} columnSpacing={{xs: 12, sm: 10, md: 20 }}>
-            <Grid item xs={12} sm={6} md={6} >
-              <Grid className={styles.grid}>
-<div>
-
-              <Image src={image} alt="leather jacket"/>
-              <Container className={styles.container_card}>
-
-            <Typography
-            variant="subtitle2"
-            noWrap
-            component="div"
-            align="left"
-            >
-              Zapatos
-          </Typography>
-              </Container>
-              </div>
-              </Grid>
-            </Grid>
-            <Grid  item xs={12} sm={6} md={6} >
-              <div className={styles.container_card}>
-
-            <Image src={image} alt="leather jacket"/>
-
-            <Typography
-            variant="subtitle2"
-            noWrap
-            component="div"
-            align="left"
-            >
-              Chaquetas
-          </Typography>
-              </div>
-            </Grid>
-
           </Grid>
-            </Grid>
-            <Divider/>
-          <Grid container>
+        </Grid>
+      </Grid>
+      <Divider />
+      <Grid container></Grid>
+    </>
+  );
+};
 
-          </Grid>
-  </>);
-}
+export default Home;
+// type --> jackets, handbags, shoes
+export const pages = [
 
-export default Home
+  {
+    href: "/categories",
+    icon: "shirtOutline",
+    component: Categories,
+    default: true,
+    isTab: true
+  },
+  {
+    href: "/categories/:category/:type",
+    component: ProductType,
+    default: false,
+    isTab: false
+  },
+  {
+    href: "/categories/:category",
+    icon: "shirtOutline",
+    component: Category,
+    default: true,
+    isTab: false
+  },
+  {
+    href: "/favourites",
+    icon: "heartOutline",
+    component: Favourites,
+    default: false,
+    isTab: true
+  },
+  {
+    href: "/shopping",
+    icon: "heartOutline",
+    component: Favourites,
+    default: false,
+    isTab: true
+  }
+];
 
 /*
   return (
