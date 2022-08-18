@@ -1,5 +1,5 @@
 .overalContainer{
-    margin-top: 1rem;
+    margin-top: 1.2rem;
 }
 
 
@@ -37,3 +37,26 @@
     background-color: grey;
     color: white;
 }
+.carrouselOverlay{
+    overflow: overlay;
+    flex-wrap: nowrap;
+
+}
+.colcarrouselItemVisible{
+    display: flex;
+    justify-content: center;
+}
+.colcarrouselItem{
+    display: flex;
+    justify-content: center;
+}
+@media only screen and (max-width: 600px) {
+    /* For mobile phones: */
+    .colcarrouselItem{
+      width: 100%;
+    }
+    /* .colcarrouselItem{
+        display: none;
+    } */
+  }
+  
