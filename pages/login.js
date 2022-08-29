@@ -26,6 +26,7 @@ import {
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import imgLogin from "imgs/auth/login.jpg";
 // schema yup
 const schema = yup
   .object({
@@ -101,17 +102,20 @@ export default function Login() {
   });
 
   1;
+  console.log(imgLogin)
   return (
     <div className={stylesProduct.loginCard}>
-      <div className="">
-        <Card border="secondary" style={{ width: "25rem" }}>
+      <div className={stylesProduct.loginCardContainer}>
+
+          <Card.Img  src={imgLogin.src} width="100" height="400"className={stylesProduct.cardImage}/>
+        <Card border="secondary" style={{ width: "30rem" }}>
           <Card.Header className="text-center bg-black text-white">
             Leather Store
           </Card.Header>
           <Card.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Card.Title className="text-center">Ingresa</Card.Title>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
+              <Card.Title className="text-center">Bienvenido</Card.Title>
+              <Form.Group className="mb-1" controlId="formBasicEmail">
                 <Form.Label>Correo electronico</Form.Label>
                 <Form.Control
                   type="email"
@@ -121,13 +125,13 @@ export default function Login() {
                   }}
                   {...register("email")}
                 />
-                <Typography variant="caption">
+                <Typography variant="caption" style={{color:"red"}} className="ms-2">
                   {errors.email?.message}
                 </Typography>
 
-                <Form.Text className="text-muted">
+                {/* <Form.Text className="text-muted">
                   Nunca compartas tu email con alguien más.
-                </Form.Text>
+                </Form.Text> */}
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -140,17 +144,20 @@ export default function Login() {
                   }}
                   {...register("password")}
                 />
-                <Typography variant="caption">
+                <Typography variant="caption" style={{color:"red"}} className="ms-2">
                   {errors.password?.message}
                 </Typography>
               </Form.Group>
               {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
               <Form.Check type="checkbox" label="Recordar contraseña" />
             </Form.Group> */}
-              <Button variant="primary" type="submit">
+            <div className="d-grid gap-2">
+
+              <Button variant="primary" type="submit" className="text-center ">
                 Ingresar
               </Button>
-              <div
+            </div>
+              {/* <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
@@ -182,11 +189,11 @@ export default function Login() {
                     <Image src={facebook} alt="chippy" width={25} height={25} />
                   </Button>
                 </Link>
-              </div>
+              </div> */}
             </form>
           </Card.Body>
         </Card>
-        <h4> User Logged In: </h4>
+        {/* <h4> User Logged In: </h4> */}
         {user?.email}
       </div>
     </div>
