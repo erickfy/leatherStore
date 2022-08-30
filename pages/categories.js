@@ -32,7 +32,7 @@ const Categories = () => {
         {product.map((i, index) => (
           <Col xs={12} sm={6} md={4} lg={3} key={index}>
               <Link  href={{
-              pathname: "/categories",
+              pathname: "/buying",
               query: { keyword: outputWithSpace(i.title) },
             }}>
             <Card style={{ width: "18rem" }} className={styles.container_card}>
