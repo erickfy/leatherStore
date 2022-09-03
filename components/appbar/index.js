@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect} from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -31,6 +31,9 @@ import HikingOutlinedIcon from "@mui/icons-material/HikingOutlined";
 import IceSkatingOutlinedIcon from "@mui/icons-material/IceSkatingOutlined";
 import jacket from "imgs/jacketIcon.jpg";
 import Image from "next/image";
+import SpeedDial from "components/speedDial"
+import Drawer from "components/drawer"
+
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -71,7 +74,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function AppBarStore() {
+export default function AppBarStore({itemCallBack}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElMale, setAnchorElMale] = React.useState(null);
   const [anchorElFemale, setAnchorElFemale] = React.useState(null);
@@ -83,6 +86,27 @@ export default function AppBarStore() {
   const isMenuOpenFemale = Boolean(anchorElFemale);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isMobileMenuOpenLeft = Boolean(mobileMoreAnchorLeft);
+  //drawer
+  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const handleDrawer = (word) => {
+    console.log("hi over there!")
+    switch(word){
+      case "favorites":
+        console.log("favorites");
+        setOpenDrawer(true);
+        handleMenuClose();
+        break;
+      case "cart":
+        console.log("cart");
+        setOpenDrawer(true)
+        handleMenuClose();
+        break;
+        default:
+          console.log("nothing")
+    }
+
+  }
+//drawer
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -152,7 +176,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show man store"
           color="inherit"
         >
           <StorefrontOutlinedIcon />
@@ -162,7 +186,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show discounts"
           color="inherit"
         >
           <DiscountOutlinedIcon />
@@ -172,7 +196,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show jackets"
           color="inherit"
         >
           <CheckroomOutlinedIcon />
@@ -182,7 +206,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show bags"
           color="inherit"
         >
           <HikingOutlinedIcon />
@@ -192,7 +216,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show shoes"
           color="inherit"
         >
           <IceSkatingOutlinedIcon />
@@ -220,7 +244,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show store"
           color="inherit"
         >
           <StorefrontOutlinedIcon />
@@ -230,7 +254,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show discount"
           color="inherit"
         >
           <DiscountOutlinedIcon />
@@ -240,7 +264,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show room"
           color="inherit"
         >
           <CheckroomOutlinedIcon />
@@ -250,7 +274,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show hiking"
           color="inherit"
         >
           <HikingOutlinedIcon />
@@ -260,7 +284,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleMenuClose}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show"
           color="inherit"
         >
           <IceSkatingOutlinedIcon />
@@ -287,19 +311,20 @@ export default function AppBarStore() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+      <MenuItem onClick={()=>handleDrawer("favorites")}>
+        <IconButton size="large" aria-label="show 4 new products" color="inherit" >
           <Badge badgeContent={4} color="error">
             <FavoriteBorderIcon />
           </Badge>
         </IconButton>
         <p>Favoritos</p>
       </MenuItem>
-      <MenuItem>
+      <MenuItem   onClick={() =>handleDrawer("cart")}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show car"
           color="inherit"
+        
         >
           <Badge badgeContent={17} color="error">
             <ShoppingCartOutlinedIcon />
@@ -338,7 +363,7 @@ export default function AppBarStore() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem onClick={(e) => handleProfileMenuOpenMale(e, "Right")}>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        <IconButton size="large" aria-label="show man" color="inherit">
           <ManOutlinedIcon />
         </IconButton>
         <p>HOMBRE</p>
@@ -346,7 +371,7 @@ export default function AppBarStore() {
       <MenuItem onClick={handleProfileMenuOpenFemale}>
         <IconButton
           size="large"
-          aria-label="show 17 new notifications"
+          aria-label="show woman"
           color="inherit"
         >
           <WomanOutlinedIcon />
@@ -355,6 +380,18 @@ export default function AppBarStore() {
       </MenuItem>
     </Menu>
   );
+//drawer
+const toggleDrawer = (newOpen) => () => {
+  setOpenDrawer(newOpen);
+  console.log("main drawer", newOpen)
+};
+const handleClick = (e) => {
+  console.log("e", e)
+}
+useEffect(() => {
+
+},[openDrawer])
+//drawer
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -430,8 +467,10 @@ export default function AppBarStore() {
             </IconButton>
             <IconButton
               size="large"
-              aria-label="show 4 new mails"
+              aria-label="show 4 new products favorites"
               color="inherit"
+              onClick={()=>handleDrawer("favorites")}
+              
             >
               <Badge badgeContent={4} color="error">
                 <FavoriteBorderIcon />
@@ -439,8 +478,9 @@ export default function AppBarStore() {
             </IconButton>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
+              aria-label="show shopping cart"
               color="inherit"
+              onClick={()=>handleDrawer("cart")}
             >
               <Badge badgeContent={17} color="error">
                 <ShoppingCartOutlinedIcon />
@@ -479,6 +519,11 @@ export default function AppBarStore() {
       {renderMenu}
       {renderMenuMale}
       {renderMenuFemale}
+      <button onClick={()=> itemCallBack("hello world")}> clicke me item</button>
+      <button onClick={()=> setOpenDrawer(true)}> Open Drawer</button>
+      <Drawer toggleDrawer={toggleDrawer} open={openDrawer}/>
+      
+      <SpeedDial/>
     </Box>
   );
 }
