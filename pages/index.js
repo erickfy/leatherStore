@@ -3,19 +3,17 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Carrousel from "@/components/carrousel";
 
-import Footer from "components/footer";
 import { Container, Divider, Grid, Typography } from "@mui/material";
 import image from "imgs/jackOseaOprey.jpg";
 import Categories from "./categories";
-import Favourites from "./Favourites";
-import ProductType from "./ProductType";
 import Category from "./Category";
-import Layout from "@/components/layout";
+import Footer from "components/footer";
+import AppBarStore from "@/components/appbar";
 
 const Home = () => {
   return (
     <>
-      <Layout>
+    <AppBarStore />
         <Carrousel />
         <Grid container spacing={2} s className={styles.container}>
           <div className={styles.container_title}>
@@ -77,7 +75,7 @@ const Home = () => {
         </Grid>
         <Divider />
         <Grid container></Grid>
-      </Layout>
+        <Footer/>
     </>
   );
 };

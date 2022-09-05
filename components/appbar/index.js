@@ -74,7 +74,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function AppBarStore({itemCallBack}) {
+export default function AppBarStore() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorElMale, setAnchorElMale] = React.useState(null);
   const [anchorElFemale, setAnchorElFemale] = React.useState(null);
@@ -519,11 +519,11 @@ useEffect(() => {
       {renderMenu}
       {renderMenuMale}
       {renderMenuFemale}
-      <button onClick={()=> itemCallBack("hello world")}> clicke me item</button>
-      <button onClick={()=> setOpenDrawer(true)}> Open Drawer</button>
+      {/* <button onClick={()=> itemCallBack("hello world")}> clicke me item</button> */}
+      {/* <button onClick={()=> setOpenDrawer(true)}> Open Drawer</button> */}
       <Drawer toggleDrawer={toggleDrawer} open={openDrawer}/>
       
-      <SpeedDial/>
+      {/* <SpeedDial/> */}
     </Box>
   );
 }

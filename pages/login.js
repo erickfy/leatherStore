@@ -27,6 +27,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import imgLogin from "imgs/auth/login.jpg";
+import { useRouter } from 'next/router'
 // schema yup
 const schema = yup
   .object({
@@ -35,54 +36,25 @@ const schema = yup
   })
   .required();
 export default function Login() {
-  console.log("renderer");
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-
+  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
   const [user, setUser] = useState({});
+  const [error, setError] = useState("");
+  const router = useRouter()
 
   useEffect(() => {
-    (async ()=> {
+    (async () => {
       await onAuthStateChanged(auth, (currentUser) => {
-        console.log("auth",auth);
-        if(currentUser){
+        console.log("auth", auth);
+        if (currentUser) {
           const uid = user.uid;
-        }else{
-
+        } else {
         }
         setUser(currentUser);
       });
-  
     })();
   }, []);
 
-  // const register = async () => {
-  //   try {
-  //     const user = await createUserWithEmailAndPassword(
-  //       auth,
-  //       registerEmail,
-  //       registerPassword
-  //     );
-  //     console.log(user);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //   }
-  // };
 
-  const login = async () => {
-    try {
-      const user_ = await signInWithEmailAndPassword(
-        auth,
-        loginEmail,
-        loginPassword
-      );
-      console.log(user_);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   const logout = async () => {
     await signOut(auth);
@@ -94,20 +66,38 @@ export default function Login() {
     formState: { errors },
     control,
   } = useForm({ resolver: yupResolver(schema) });
-  const onSubmit = handleSubmit((values) => {
-    // const { email, password } = values;
-    logout();
-    console.log("values", values);
-    login();
-  });
+  const onSubmit = handleSubmit(async (values) => {
+    let email = values.email;
+    let password = values.password;
 
-  1;
-  console.log(imgLogin)
+    try {
+      const user_ = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log("correct:", user_);
+      setError("")
+      if(email === "admin@gmail.com" && password === "superadmin"){
+        router.push("/admin/:pdvwSchhINbT69qmUDNN")
+      }else{
+        router.push("/categories")
+      }
+    } catch (error) {
+      console.log("not working", error.message);
+      setError("Usuario no registrado")
+    }
+  });
   return (
     <div className={stylesProduct.loginCard}>
       <div className={stylesProduct.loginCardContainer}>
-
-          <Card.Img  src={imgLogin.src} width="100" height="400"className={stylesProduct.cardImage}/>
+        {/* <button onClick={logout}>salir</button> */}
+        <Card.Img
+          src={imgLogin.src}
+          width="100"
+          height="400"
+          className={stylesProduct.cardImage}
+        />
         <Card border="secondary" style={{ width: "30rem" }}>
           <Card.Header className="text-center bg-black text-white">
             Leather Store
@@ -118,83 +108,65 @@ export default function Login() {
               <Form.Group className="mb-1" controlId="formBasicEmail">
                 <Form.Label>Correo electronico</Form.Label>
                 <Form.Control
+                  placeholder="Ingresa el email"
+                  onChange={({ target }) =>
+                    setUserInfo({ ...userInfo, email: target.value })
+                  }
                   type="email"
-                  placeholder="Enter email"
-                  onChange={(event) => {
-                    setLoginEmail(event.target.value);
-                  }}
                   {...register("email")}
                 />
-                <Typography variant="caption" style={{color:"red"}} className="ms-2">
+                <Typography
+                  variant="caption"
+                  style={{ color: "red" }}
+                  className="ms-2"
+                >
                   {errors.email?.message}
                 </Typography>
-
-                {/* <Form.Text className="text-muted">
-                  Nunca compartas tu email con alguien más.
-                </Form.Text> */}
               </Form.Group>
-
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Contraseña</Form.Label>
                 <Form.Control
+                  placeholder="Ingresa la contraseña"
+                  onChange={({ target }) =>
+                    setUserInfo({ ...userInfo, password: target.value })
+                  }
                   type="password"
-                  placeholder="Password"
-                  onChange={(event) => {
-                    setLoginPassword(event.target.value);
-                  }}
                   {...register("password")}
                 />
-                <Typography variant="caption" style={{color:"red"}} className="ms-2">
+                <Typography
+                  variant="caption"
+                  style={{ color: "red" }}
+                  className="ms-2"
+                >
                   {errors.password?.message}
                 </Typography>
               </Form.Group>
-              {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Recordar contraseña" />
-            </Form.Group> */}
-            <div className="d-grid gap-2">
-
-              <Button variant="primary" type="submit" className="text-center ">
-                Ingresar
-              </Button>
-            </div>
-              {/* <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  margin: "1rem",
-                }}
-              >
-                <Link href="#" passHref>
-                  <Button
-                    variant="outlined"
-                    className={styles.button}
-                    onClick={signInWithGoogle}
-                  >
-                    Iniciar Sesión con &nbsp;
-                    <div>
-                      <Image src={google} alt="chippy" width={25} height={25} />
-                    </div>
-                  </Button>
-                </Link>
-
-                <Link href="#" passHref>
-                  <Button
-                    variant="contained"
-                    className={styles.button}
-                    color="secondary"
-                    onClick={signInWithFacebook}
-                  >
-                    Iniciar Sesión con &nbsp;
-                    <Image src={facebook} alt="chippy" width={25} height={25} />
-                  </Button>
-                </Link>
-              </div> */}
+              <div className="d-grid gap-2">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="text-center "
+                >
+                  Ingresar
+                </Button>
+                {error ? 
+                   <Typography
+                   variant="caption"
+                   style={{ color: "red" }}
+                   className="ms-2"
+                 >
+                   Usuario no encontrado 
+                   <Link href="/signup"> Registrate aqui!</Link>
+                 
+                 </Typography>
+                : ""}
+             
+                
+              </div>
             </form>
           </Card.Body>
         </Card>
-        {/* <h4> User Logged In: </h4> */}
-        {user?.email}
+        {/* {user?.email} */}
       </div>
     </div>
   );

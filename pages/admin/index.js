@@ -141,7 +141,7 @@ export default function Admin() {
 
   useEffect(() => {
     const getProducts = async () => {
-      const response = await fetch(`/data/men/jackets.json`);
+      const response = await fetch(`/data/men/coats.json`);
       const data = await response.json();
       // setProducts(data);
       // setFilteredProducts(data);

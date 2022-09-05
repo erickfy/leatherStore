@@ -11,6 +11,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { capitalize, productInfo, outputWithSpace } from "utils/";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Alert, Stack, Collapse } from "@mui/material";
+import { getItemsByConditionAll } from "../service/api";
+import Footer from "components/footer";
+import AppBarStore from "@/components/appbar";
 
 const Buying = () => {
   const [product, setProduct] = useState([]);
@@ -22,8 +25,9 @@ const Buying = () => {
   // console.log(matchesAux)
   const router = useRouter();
   const key = router.query.keyword;
-  console.log("key", key);
-  console.log("all", router.query);
+  const {type} = router.query
+  // console.log("key", key);
+  // console.log("all", router.query);
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);
   };
@@ -38,17 +42,24 @@ const Buying = () => {
     },
   ];
   const i = product[0];
-  console.log("pro", pro[0].image);
+  // console.log("pro", pro[0].image);
   useEffect(() => {
     const getProducts = async () => {
-      const response = await fetch(`/data/men/jackets.json`);
-      const data = await response.json();
+//get data firebase
+const allItems = await getItemsByConditionAll(type);
+// console.log(allItems);
+      setProduct(allItems[0].data);
+
+//get data firebase
+
+      // const response = await fetch(`/data/men/coats.json`);
+      // const data = await response.json();
       // setProducts(data);
       // setFilteredProducts(data);
-      console.log("data", data);
-      if (data) {
-        const newItem = data.filter((i) => outputWithSpace(i.title) === key);
-        console.log("your item selected: ", newItem);
+      // console.log("data", data);
+      if (allItems[0].data) {
+        const newItem = allItems[0].data.filter((i) => outputWithSpace(i.title) === key);
+        // console.log("your item selected: ", newItem);
         setProduct(newItem);
       }
       // setMatches(matchesAux);
@@ -70,7 +81,9 @@ const Buying = () => {
       setOpenAlertHeart(false);
     }, 2000);
   };
-  return (
+  return (<>
+    <AppBarStore/>
+
     <Container className={styles.overalContainer}>
       <Row>
         <Col xs={12} sm={6} md={6} className="d-flex justify-content-center">
@@ -105,8 +118,8 @@ const Buying = () => {
                 </Card.Header>
                 <Card.Body>
                   <Card.Title>
-                    <span className={styles.textPrice}>{i.price}</span> &nbsp;
-                    <span style={{ color: "red" }}>{i.price}</span>
+                    <span className={styles.textPrice}>${i.price}</span> &nbsp;
+                    <span style={{ color: "red" }}>${i.price - i.discount}</span>
                   </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted text-center">
                     <div className={styles.containerBorderSize}>
@@ -370,10 +383,10 @@ const Buying = () => {
                             </Card.Text>
                             <Card.Title>
                               <span className={styles.textPrice}>
-                                {i.price}
+                                ${i.price}
                               </span>{" "}
                               &nbsp;
-                              <span style={{ color: "red" }}>{i.price}</span>
+                              <span style={{ color: "red" }}>${i.price - i.discount}</span>
                             </Card.Title>
                           </Card.Body>
                         </Card>
@@ -404,10 +417,10 @@ const Buying = () => {
                             </Card.Text>
                             <Card.Title>
                               <span className={styles.textPrice}>
-                                {i.price}
+                              ${i.price}
                               </span>{" "}
                               &nbsp;
-                              <span style={{ color: "red" }}>{i.price}</span>
+                              <span style={{ color: "red" }}>${i.price - i.discount}</span>
                             </Card.Title>
                           </Card.Body>
                         </Card>
@@ -438,10 +451,10 @@ const Buying = () => {
                             </Card.Text>
                             <Card.Title>
                               <span className={styles.textPrice}>
-                                {i.price}
+                              ${i.price}
                               </span>{" "}
                               &nbsp;
-                              <span style={{ color: "red" }}>{i.price}</span>
+                              <span style={{ color: "red" }}>${i.price - i.discount}</span>
                             </Card.Title>
                           </Card.Body>
                         </Card>
@@ -472,10 +485,10 @@ const Buying = () => {
                             </Card.Text>
                             <Card.Title>
                               <span className={styles.textPrice}>
-                                {i.price}
+                              $ {i.price}
                               </span>{" "}
                               &nbsp;
-                              <span style={{ color: "red" }}>{i.price}</span>
+                              <span style={{ color: "red" }}>${i.price - i.discount}</span>
                             </Card.Title>
                           </Card.Body>
                         </Card>
@@ -627,6 +640,10 @@ const Buying = () => {
         </Col>
       </Row>
     </Container>
+    <Footer/>
+
+  </>
+
   );
 };
 

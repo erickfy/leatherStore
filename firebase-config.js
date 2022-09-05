@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { GoogleAuthProvider, signInWithPopup, getAuth, FacebookAuthProvider} from "firebase/auth";
-
+import { GoogleAuthProvider, signInWithPopup, getAuth, FacebookAuthProvider,  setPersistence, browserLocalPersistence} from "firebase/auth";
+import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyC0uSMvvmB5EC3l7kXWDlZrdFdKl6NBTKg",
@@ -14,7 +14,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
+export const db = getFirestore();
 export const auth = getAuth(app);
 
 // google auth
@@ -55,3 +55,4 @@ export const signInWithFacebook = () => {
       console.log(error);
     });
 };
+setPersistence(auth, browserLocalPersistence);
