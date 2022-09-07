@@ -16,6 +16,11 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { outputWithSpace } from "utils/";
+import { Container } from "@mui/material";
+import SplitButton from "components/splitbutton"
+import style from "./Admin.module.css"
+import { getItemsByConditionAll } from "service/api";
+
 
 function createData(name, price, discount, stock, size, amount) {
   return {
@@ -138,22 +143,34 @@ const rows = [
 export default function Admin() {
   const [product, setProduct] = useState([]);
   const [rows, setRows] = useState([]);
-
+  const [nameCol, setNameCol] = useState({category: "women", type: "jeans"});
+console.log(nameCol, "aksldjflkadjsflkaj");
   useEffect(() => {
     const getProducts = async () => {
-      const response = await fetch(`/data/men/coats.json`);
-      const data = await response.json();
+      // const response = await fetch(`/data/women/jeans.json`);
+      let str = `/data/${nameCol.category}/${nameCol.type}.json`;
+      console.log(str, "str");
+//firebase
+const allItems = await getItemsByConditionAll(nameCol.type);
+// console.log(allItems);
+      // setProduct(allItems[0].data);
+//firebase
+
+
+      // const response = await fetch(str);
+      // const data = await response.json();
+      
       // setProducts(data);
       // setFilteredProducts(data);
-      console.log("data", data);
-      if (data) {
+      console.log("data", allItems[0].data);
+      if (allItems[0].data) {
         // name,
         // price,
         // discount,
         // stock,
         // size,
         // amount,
-        const newItems = data.map((item) => createData(item.title, item.price, 159, 6.0, 24, 4.0, 3.99));
+        const newItems = allItems[0].data.map((item) => createData(item.title, item.price, 159, 6.0, 24, 4.0, 3.99));
         console.log("ultra data: ",newItems);
         
         setRows(newItems)
@@ -173,10 +190,52 @@ export default function Admin() {
     };
 
     getProducts();
-  }, []);
+  }, [nameCol]);
+  const handleItemSelected = (value) => {
+    let str = ""
+      switch(value.index){
+        case 0:
+          str = "coats"
+          break;
+          case 1:
+          str = "formal_shirts"
+          break;
+          case 2:
+          str = "sportswear"
+
+          break;
+          case 3:
+          str = "formal_shirts"
+
+          break;
+          case 4:
+          str = "jeans"
+
+          break;
+          case 5:
+          str = "makeup"
+          break;
+        default:
+          break;
+
+      }
+    console.log(str, "value item selected");
+    if(value.index <=2){
+    let obj = { category: "men", type: str };
+    setNameCol(obj)
+      
+    }else{
+      let obj = { category: "woman", type: str };
+      setNameCol(obj)
+    }
+  }
+  console.log("rows:", rows);
   return (
     <>
       <NavBarAdmin />
+      <Container className={style.containerSplitButton}>
+        <SplitButton itemSelected={handleItemSelected}/>
+      </Container>
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -190,8 +249,8 @@ export default function Admin() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <Row key={row.name} row={row} />
+            {rows.map((row, index) => (
+              <Row key={index} row={row} />
             ))}
           </TableBody>
         </Table>

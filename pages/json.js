@@ -8,9 +8,9 @@ import {
   getItemById,
   deleteItem,
   getArrayFromCollection,
-  getItemsByConditionAll,
+  getItemsByConditionAll,getUser
 } from "service/api";
-import { onAuthStateChanged } from "firebase/auth";
+import { getAdditionalUserInfo, onAuthStateChanged } from "firebase/auth";
 import { auth } from "firebase-config";
 
 const json = () => {
@@ -138,14 +138,22 @@ const json = () => {
       console.log("i:", i.title);
       console.log("index", index);
     });
+    console.log("item", getUser())
   };
+  const handleGetUser = async () => {
+    const allItems = await getItemsByConditionAll("users")
+    const itemIs = allItems.filter((i, index) => i.id === "4oeD4YEgZnBp7J05RvJ3");
+    console.log("Item: ", itemIs)
+    console.log(await getUser("users"))
+  }
   return (
     <div>
       json
-      <button onClick={handlecreateItem}>Add item</button>
-      <button onClick={handleupdateItem}>get item and update by id</button>
-      <button onClick={handleCreate}>send data</button>
-      <button onClick={handleGetIteration}>iteration data</button>
+      {/* <button onClick={handlecreateItem}>Add item</button> */}
+      {/* <button onClick={handleupdateItem}>get item and update by id</button> */}
+      {/* <button onClick={handleCreate}>send data</button> */}
+      {/* <button onClick={handleGetIteration}>iteration data</button> */}
+      <button onClick={handleGetUser}>get users</button>
       {/* <button onClick={handleGET}>get by id</button> */}
     </div>
   );

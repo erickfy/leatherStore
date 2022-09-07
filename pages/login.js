@@ -28,6 +28,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import imgLogin from "imgs/auth/login.jpg";
 import { useRouter } from 'next/router'
+import { createItem } from "../service/api";
 // schema yup
 const schema = yup
   .object({
@@ -79,7 +80,7 @@ export default function Login() {
       console.log("correct:", user_);
       setError("")
       if(email === "admin@gmail.com" && password === "superadmin"){
-        router.push("/admin/:pdvwSchhINbT69qmUDNN")
+        router.push({pathname: '/admin', query: {jwt: "pdvwSchhINbT69qmUDNN"}})
       }else{
         router.push("/categories")
       }
@@ -87,6 +88,8 @@ export default function Login() {
       console.log("not working", error.message);
       setError("Usuario no registrado")
     }
+    // add user to firestore
+    // createItem()
   });
   return (
     <div className={stylesProduct.loginCard}>

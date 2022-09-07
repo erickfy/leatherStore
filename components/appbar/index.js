@@ -20,6 +20,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Grid } from "@mui/material";
 import styles from "./AppBar.module.css";
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+
 import ManOutlinedIcon from "@mui/icons-material/ManOutlined";
 import WomanOutlinedIcon from "@mui/icons-material/WomanOutlined";
 import MaleOutlinedIcon from "@mui/icons-material/MaleOutlined";
@@ -153,8 +155,8 @@ export default function AppBarStore() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Ver Perfil</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Mi Cuenta</MenuItem>
+      <MenuItem onClick={handleMenuClose}><ExitToAppIcon/>Salir</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>Mi Cuenta</MenuItem> */}
     </Menu>
   );
   const renderMenuMale = (
@@ -181,7 +183,7 @@ export default function AppBarStore() {
         >
           <StorefrontOutlinedIcon />
         </IconButton>
-        Tienda de Hombre
+        Abrigos y Chaquetas
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <IconButton
@@ -191,7 +193,7 @@ export default function AppBarStore() {
         >
           <DiscountOutlinedIcon />
         </IconButton>
-        Hombre Todo Rebajas
+        Camisas Formales
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <IconButton
@@ -201,28 +203,9 @@ export default function AppBarStore() {
         >
           <CheckroomOutlinedIcon />
         </IconButton>
-        Chaquetas
+        Ropa Deportiva
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton
-          size="large"
-          aria-label="show bags"
-          color="inherit"
-        >
-          <HikingOutlinedIcon />
-        </IconButton>
-        Bolsos y Mochilas
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton
-          size="large"
-          aria-label="show shoes"
-          color="inherit"
-        >
-          <IceSkatingOutlinedIcon />
-        </IconButton>
-        Zapatos
-      </MenuItem>
+
     </Menu>
   );
   const renderMenuFemale = (
@@ -249,7 +232,7 @@ export default function AppBarStore() {
         >
           <StorefrontOutlinedIcon />
         </IconButton>
-        <p>Tienda de Mujer</p>
+        <p>Vestidos</p>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <IconButton
@@ -259,7 +242,7 @@ export default function AppBarStore() {
         >
           <DiscountOutlinedIcon />
         </IconButton>
-        Mujer Todo Rebajas
+        Jeans de Mujer
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <IconButton
@@ -269,27 +252,7 @@ export default function AppBarStore() {
         >
           <CheckroomOutlinedIcon />
         </IconButton>
-        Chaquetas
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton
-          size="large"
-          aria-label="show hiking"
-          color="inherit"
-        >
-          <HikingOutlinedIcon />
-        </IconButton>
-        Bolsos y Mochilas
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <IconButton
-          size="large"
-          aria-label="show"
-          color="inherit"
-        >
-          <IceSkatingOutlinedIcon />
-        </IconButton>
-        Zapatos
+        Maquillaje
       </MenuItem>
     </Menu>
   );
@@ -313,7 +276,9 @@ export default function AppBarStore() {
     >
       <MenuItem onClick={()=>handleDrawer("favorites")}>
         <IconButton size="large" aria-label="show 4 new products" color="inherit" >
-          <Badge badgeContent={4} color="error">
+          <Badge 
+          // badgeContent={4} 
+          color="error">
             <FavoriteBorderIcon />
           </Badge>
         </IconButton>
@@ -326,7 +291,9 @@ export default function AppBarStore() {
           color="inherit"
         
         >
-          <Badge badgeContent={17} color="error">
+          <Badge
+          //  badgeContent={17}
+            color="error">
             <ShoppingCartOutlinedIcon />
           </Badge>
         </IconButton>
@@ -423,7 +390,7 @@ useEffect(() => {
           >
             TODO CUERO
           </Typography>
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -431,7 +398,7 @@ useEffect(() => {
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
-          </Search>
+          </Search> */}
 
           <Box sx={{ flexGrow: 1 }}>
             <Grid container className={styles.containerNames}>
@@ -472,7 +439,9 @@ useEffect(() => {
               onClick={()=>handleDrawer("favorites")}
               
             >
-              <Badge badgeContent={4} color="error">
+              <Badge 
+              // badgeContent={4}
+               color="error">
                 <FavoriteBorderIcon />
               </Badge>
             </IconButton>
@@ -482,7 +451,9 @@ useEffect(() => {
               color="inherit"
               onClick={()=>handleDrawer("cart")}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge 
+              // badgeContent={17} 
+              color="error">
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
@@ -507,7 +478,9 @@ useEffect(() => {
               onClick={(e) => handleMobileMenuOpen(e, "right")}
               color="inherit"
             >
-              <Badge badgeContent={21} color="error">
+              <Badge
+              //  badgeContent={21}
+               color="error">
                 <MoreIcon />
               </Badge>
             </IconButton>

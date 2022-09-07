@@ -6,76 +6,187 @@ import Carrousel from "@/components/carrousel";
 import { Container, Divider, Grid, Typography } from "@mui/material";
 import image from "imgs/jackOseaOprey.jpg";
 import Categories from "./categories";
-import Category from "./Category";
 import Footer from "components/footer";
 import AppBarStore from "@/components/appbar";
+import { Card, Col, Row } from "react-bootstrap";
+import Link from "next/link";
+const imageSport =
+  "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/403704.jpg?X56";
+const imageCoat =
+  "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/525517.jpg?X56";
+const image33 =
+  "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/L26457.jpg?X56";
 
 const Home = () => {
   return (
     <>
-    <AppBarStore />
-        <Carrousel />
-        <Grid container spacing={2} s className={styles.container}>
-          <div className={styles.container_title}>
-            <Typography
-              variant="subtitle1"
-              // noWrap
-              component="div"
-              align="left"
-            >
-              Venta de Temporada
-            </Typography>
-            <Typography
-              variant="subtitle2"
-              // noWrap={false }
-              paragraph
-              component="div"
-              align="left"
-            >
-              Compra ahora
-            </Typography>
-          </div>
-          <Grid
-            container
-            columns={{ xs: 12, sm: 12 }}
-            columnSpacing={{ xs: 12, sm: 10, md: 20 }}
+      <AppBarStore />
+      <Carrousel />
+      <Grid container spacing={2} s className={styles.container}>
+        <div className={styles.container_title}>
+          <Typography
+            variant="subtitle1"
+            // noWrap
+            component="div"
+            align="left"
           >
-            <Grid item xs={12} sm={6} md={6}>
-              <Grid className={styles.grid}>
-                <div>
-                  <Image src={image} alt="leather jacket" />
-                  <Container className={styles.container_card}>
-                    <Typography
-                      variant="subtitle2"
-                      noWrap
-                      component="div"
-                      align="left"
-                    >
-                      Zapatos
-                    </Typography>
-                  </Container>
-                </div>
-              </Grid>
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <div className={styles.container_card}>
-                <Image src={image} alt="leather jacket" />
+            Venta de Temporada
+          </Typography>
+          <Typography
+            variant="subtitle2"
+            // noWrap={false }
+            paragraph
+            component="div"
+            align="left"
+          >
+            Compra ahora
+          </Typography>
+        </div>
+        <Grid
+          container
+          columns={{ xs: 12, sm: 12, md:12, lg:12}}
+          // columnSpacing={{ xs: 12, sm: 10, md: 20 }}
+        >
+          <Grid item xs={12} sm={6} md={4} lg={3}>
 
-                <Typography
-                  variant="subtitle2"
-                  noWrap
-                  component="div"
-                  align="left"
-                >
-                  Chaquetas
-                </Typography>
+
+            <Grid className={styles.grid} >
+            <Link
+              href={{
+                pathname: "/categories",
+                query: { keyword: "sportswear" },
+              }}
+              
+            >
+              <div style={{cursor:"pointer"}}>
+                <Image
+                  src={imageSport}
+                  alt="leather jacket"
+                  width={300}
+                  height={300}
+                />
+                <Container className={styles.container_card}>
+                  <Typography
+                    variant="subtitle2"
+                    noWrap
+                    component="div"
+                    align="left"
+                  >
+                    Ropa Deportiva
+                  </Typography>
+                </Container>
               </div>
+            </Link>
             </Grid>
           </Grid>
+          {/* <Row className={styles.categoryContainer}>
+
+
+          <Col xs={12} sm={6} md={4} lg={3} >
+            <Link
+              href={{
+                pathname: "/buying",
+                // query: { keyword: outputWithSpace(i.title), type: nameCol },
+              }}
+            >
+
+            </Link>
+          </Col>
+
+          </Row> */}
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <div className={styles.container_card} >
+            <Link
+              href={{
+                pathname: "/categories",
+                query: { keyword: "sportswear" },
+              }}
+              
+            >
+              <div style={{cursor:"pointer"}}>
+
+              <Image
+                src={imageCoat}
+                alt="leather jacket"
+                width={300}
+                height={300}
+                />
+
+              <Typography
+                variant="subtitle2"
+                noWrap
+                component="div"
+                align="left"
+                >
+                Chaquetas
+              </Typography>
+                </div>
+                </Link>
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <div className={styles.container_card}>
+            <Link
+              href={{
+                pathname: "/categories",
+                query: { keyword: "sportswear" },
+              }}
+              
+            >
+            <div style={{cursor:"pointer"}}>
+              <Image
+                src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/R31875.jpg"
+                alt="leather jacket"
+                width={300}
+                height={300}
+              />
+
+              <Typography
+                variant="subtitle2"
+                noWrap
+                component="div"
+                align="left"
+              >
+                Vestidos
+              </Typography>
+              </div>
+              </Link>
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <div className={styles.container_card}>
+            <Link
+              href={{
+                pathname: "/categories",
+                query: { keyword: "sportswear" },
+              }}
+              
+            >
+            <div style={{cursor:"pointer"}}>
+              <Image
+                src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/473833.jpg?X56"
+                alt="leather jacket"
+                width={300}
+                height={300}
+              />
+
+              <Typography
+                variant="subtitle2"
+                noWrap
+                component="div"
+                align="left"
+              >
+                Jeans
+              </Typography>
+              </div>
+              </Link>
+            </div>
+          </Grid>
         </Grid>
-        <Divider />
-        <Grid container></Grid>
-        <Footer/>
+      </Grid>
+      <Divider />
+      <Grid container></Grid>
+      <Footer />
     </>
   );
 };
@@ -86,34 +197,34 @@ export const pages = [
   {
     href: "/categories",
     icon: "shirtOutline",
-    component: Categories,
+    component: "Categories",
     default: true,
     isTab: true,
   },
   {
     href: "/categories/:category/:type",
-    component: ProductType,
+    component: "ProductType",
     default: false,
     isTab: false,
   },
   {
     href: "/categories/:category",
     icon: "shirtOutline",
-    component: Category,
+    component: "Category",
     default: true,
     isTab: false,
   },
   {
     href: "/favourites",
     icon: "heartOutline",
-    component: Favourites,
+    component: "Favourites",
     default: false,
     isTab: true,
   },
   {
     href: "/shopping",
     icon: "heartOutline",
-    component: Favourites,
+    component: "Favourites",
     default: false,
     isTab: true,
   },

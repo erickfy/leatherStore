@@ -22,14 +22,12 @@ const validatorAdmin = async () => {
 
   return;
 };
-const e = validatorAdmin();
 console.log(e)
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-  validatorAdmin();
   return NextResponse.redirect(new URL('/admin', request.url))
 }
 let token = ""
 export const config = {
-  matcher: '/admin/:pdvwSchhINbT69qmUDNN',
+  matcher: ['/admin/:jwt', '/admin/metrics/:jwt'],
 }

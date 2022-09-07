@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-import styles from "./Categories.module.css";
+import styles from "./styles/Categories.module.css";
 import Image from "next/image";
 import { Grid, Pagination } from "@mui/material";
 import { getItemsByConditionAll } from "service/api";

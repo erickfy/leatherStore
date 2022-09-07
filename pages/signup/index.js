@@ -27,12 +27,13 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import imgLogin from "imgs/auth/login.jpg";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
+import { createItem } from "../../service/api";
 
 // schema yup
 const schema = yup
   .object({
-    // username: yup.string().required("Campo incorrecto"),
+    username: yup.string().required("Campo incorrecto"),
     email: yup.string().required("Campo incorrecto"),
     password: yup.string().required("Campo incorrecto"),
     repassword: yup.string().required("Campo incorrecto"),
@@ -40,14 +41,14 @@ const schema = yup
   .required();
 export default function Login() {
   const [userInfo, setUserInfo] = useState({
+    username: "",
     email: "",
     password: "",
     repassword: "",
   });
   const [user, setUser] = useState({});
   const [error, setError] = useState("");
-  const router = useRouter()
-
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -72,6 +73,7 @@ export default function Login() {
   const onSubmit = handleSubmit((values) => {
     console.log("values", values);
     (async () => {
+      let username = values.username;
       let email = values.email;
       // let password = values.password;
       let password = values.password;
@@ -87,25 +89,39 @@ export default function Login() {
           );
           console.log(user);
           setError("");
-          
+
           router.push("/categories");
         } catch (error) {
           console.log(error.message);
           setError("Usuario no registrado");
         }
+
+        sendDataFirestore(username, email, password);
       }
     })();
   });
 
+  const sendDataFirestore = (username, email, password) => {
+    let userName = handleUpperCase(username);
+    const obj = { username: userName, email: email, password: password };
+    createItem(obj, "users");
+  };
   1;
+  const handleUpperCase = (str) => {
+    const arr = str.split(" ");
+    for (let i = 0; i < arr.length; i++) {
+      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    }
+    return arr.join(" ");
+  };
   return (
     <div className={stylesProduct.loginCard}>
       <div className={stylesProduct.loginCardContainer}>
-        {/* <button onClick={()=> router.push("categories")}>redirect</button> */}
+        <button onClick={handleUpperCase}>send name</button>
         <Card.Img
           src={imgLogin.src}
           width="100"
-          height="400"
+          height="550"
           className={stylesProduct.cardImage}
         />
         <Card border="secondary" style={{ width: "30rem" }}>
@@ -115,13 +131,13 @@ export default function Login() {
           <Card.Body>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Card.Title className="text-center">Registrate</Card.Title>
-              {/* <Form.Group className="" controlId="formBasicEmail">
-                <Form.Label>Nombre</Form.Label>
+              <Form.Group className="" controlId="formBasicEmail">
+                <Form.Label>Nombre completo</Form.Label>
                 <Form.Control
-                  type="email"
+                  type="text"
                   placeholder="Ingresa el nombre"
-                  onChange={(event) => {
-                    setLoginEmail(event.target.value);
+                  onChange={({ target }) => {
+                    setUserInfo({ ...userInfo, username: target.value });
                   }}
                   {...register("username")}
                 />
@@ -132,7 +148,7 @@ export default function Login() {
                 >
                   {errors.username?.message}
                 </Typography>
-              </Form.Group> */}
+              </Form.Group>
 
               <Form.Group className="" controlId="formBasicEmail">
                 <Form.Label>Correo electronico</Form.Label>

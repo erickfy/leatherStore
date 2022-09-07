@@ -4,15 +4,20 @@ import { db } from 'firebase-config.js';
 // CREATE
 export const createItem = async(obj, col) => {
     const colRef = collection(db, col);
-    const data = await addDoc(colRef, obj);
+    const data = await add(colRef, obj)
     return data.id;
 }
 
 // UPDATE
-export const updateItem = async (id, obj) => {
-    const colRef = collection(db, 'items');
+export const updateItem = async (id, obj, col) => {
+    const colRef = collection(db, col);
     await updateDoc(doc(colRef, id), obj)
 }
+// SETDOC
+export const setNewDoc = async (id, obj, col) => {
+    await setDoc(doc(db, col, id), obj);
+}
+
 
 // READ
 export const getItems= async ()  => {
@@ -50,4 +55,12 @@ export const getArrayFromCollection = (collection) => {
     return collection.docs.map(doc => {
         return { ...doc.data(), id: doc.id };
     });
+}
+
+//function Users
+export const getUser = async (nameCol) => {
+    const colRef = collection(db, nameCol);
+    const result = await getDocs(query(colRef));
+    return  getArrayFromCollection(result)
+    
 }
