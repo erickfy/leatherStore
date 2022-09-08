@@ -54,7 +54,7 @@ const Home = () => {
             <Link
               href={{
                 pathname: "/categories",
-                query: { keyword: "sportswear" },
+                query: { key: "sportswear", genre:"man" },
               }}
               
             >
@@ -79,27 +79,13 @@ const Home = () => {
             </Link>
             </Grid>
           </Grid>
-          {/* <Row className={styles.categoryContainer}>
 
-
-          <Col xs={12} sm={6} md={4} lg={3} >
-            <Link
-              href={{
-                pathname: "/buying",
-                // query: { keyword: outputWithSpace(i.title), type: nameCol },
-              }}
-            >
-
-            </Link>
-          </Col>
-
-          </Row> */}
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <div className={styles.container_card} >
             <Link
               href={{
                 pathname: "/categories",
-                query: { keyword: "sportswear" },
+                query: { key: "coats", genre:"man" },
               }}
               
             >
@@ -129,7 +115,7 @@ const Home = () => {
             <Link
               href={{
                 pathname: "/categories",
-                query: { keyword: "sportswear" },
+                query: { key: "sportswear", genre:"women" },
               }}
               
             >

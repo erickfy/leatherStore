@@ -16,11 +16,24 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { outputWithSpace } from "utils/";
-import { Container } from "@mui/material";
-import SplitButton from "components/splitbutton"
-import style from "./Admin.module.css"
+import {
+  BottomNavigation,
+  BottomNavigationAction,
+  Button,
+  Container,
+} from "@mui/material";
+import SplitButton from "components/splitbutton";
+import style from "./Admin.module.css";
 import { getItemsByConditionAll } from "service/api";
-
+import SpeedDial from "@mui/material/SpeedDial";
+import SpeedDialIcon from "@mui/material/SpeedDialIcon";
+import SpeedDialAction from "@mui/material/SpeedDialAction";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import DialogEdit from "components/dialog";
+import SettingsIcon from "@mui/icons-material/Settings";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function createData(name, price, discount, stock, size, amount) {
   return {
@@ -32,23 +45,37 @@ function createData(name, price, discount, stock, size, amount) {
     amount,
     history: [
       {
-        date: "2020-01-05",
-        customerId: "11091700",
+        date: new Date().toLocaleString(),
+        customerId: "Jhosef Rea",
         amount: 3,
       },
       {
-        date: "2020-01-02",
+        date: new Date().toLocaleString(),
         customerId: "Anonymous",
         amount: 1,
       },
     ],
   };
 }
-
 function Row(props) {
-  const { row } = props;
+  const { row, handlerDelete, handlerUpdate, index } = props;
   const [open, setOpen] = React.useState(false);
-
+  const [openDialog, setOpenDialog] = React.useState(false);
+  const actions = [
+    {
+      icon: <DeleteForeverIcon />,
+      name: "Eliminar",
+      click: () => {
+        setOpen(false);
+        handlerDelete(row.name);
+      },
+    },
+    { icon: <EditIcon />, name: "Editar", click: () => setOpenDialog(true) },
+  ];
+  const handlerOpen = (boolean) => {
+    setOpenDialog(boolean);
+    setOpen(false);
+  };
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -64,8 +91,8 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="right">{row.price}</TableCell>
-        <TableCell align="right">{row.discount}</TableCell>
+        <TableCell align="right">${row.price}</TableCell>
+        <TableCell align="right">${row.discount}</TableCell>
         <TableCell align="right">{row.stock}</TableCell>
         <TableCell align="right">{row.size}</TableCell>
       </TableRow>
@@ -75,7 +102,47 @@ function Row(props) {
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 History
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    width: "100%",
+                  }}
+                >
+                  <span>
+                    <Box
+                      sx={{
+                        height: 35,
+                        transform: "translateZ(0px)",
+                        flexGrow: 1,
+                      }}
+                    >
+                      <SpeedDial
+                        ariaLabel="SpeedDial basic example"
+                        sx={{ position: "absolute", bottom: 16, right: 16 }}
+                        icon={<SpeedDialIcon />}
+                      >
+                        {actions.map((action) => (
+                          <SpeedDialAction
+                            key={action.name}
+                            icon={action.icon}
+                            tooltipTitle={action.name}
+                            onClick={action.click}
+                          />
+                        ))}
+                      </SpeedDial>
+                    </Box>
+                  </span>
+                </div>
               </Typography>
+              <DialogEdit
+                openDialog={openDialog}
+                handlerOpen={handlerOpen}
+                handlerUpdate={handlerUpdate}
+                data={row}
+                index={index}
+              />
+
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -130,6 +197,9 @@ Row.propTypes = {
     price: PropTypes.number.isRequired,
     discount: PropTypes.number.isRequired,
   }).isRequired,
+  handlerDelete: PropTypes.func,
+  handlerUpdate: PropTypes.func,
+  key: PropTypes.number,
 };
 
 const rows = [
@@ -141,25 +211,24 @@ const rows = [
 ];
 
 export default function Admin() {
-  const [product, setProduct] = useState([]);
   const [rows, setRows] = useState([]);
-  const [nameCol, setNameCol] = useState({category: "women", type: "jeans"});
-console.log(nameCol, "aksldjflkadjsflkaj");
+  const [nameCol, setNameCol] = useState({ category: "women", type: "jeans" });
+  const [openDialog, setOpenDialog] = React.useState(false);
+
   useEffect(() => {
     const getProducts = async () => {
       // const response = await fetch(`/data/women/jeans.json`);
       let str = `/data/${nameCol.category}/${nameCol.type}.json`;
       console.log(str, "str");
-//firebase
-const allItems = await getItemsByConditionAll(nameCol.type);
-// console.log(allItems);
+      //firebase
+      const allItems = await getItemsByConditionAll(nameCol.type);
+      // console.log(allItems);
       // setProduct(allItems[0].data);
-//firebase
-
+      //firebase
 
       // const response = await fetch(str);
       // const data = await response.json();
-      
+
       // setProducts(data);
       // setFilteredProducts(data);
       console.log("data", allItems[0].data);
@@ -170,10 +239,13 @@ const allItems = await getItemsByConditionAll(nameCol.type);
         // stock,
         // size,
         // amount,
-        const newItems = allItems[0].data.map((item) => createData(item.title, item.price, 159, 6.0, 24, 4.0, 3.99));
-        console.log("ultra data: ",newItems);
-        
-        setRows(newItems)
+        const newItems = allItems[0].data.map((item) =>
+          // createData(item.title, item.price, 159, 6.0, 24, 4.0, 3.99)
+          createData(item.title, item.price, 159, 6.0, 25, 4.0)
+        );
+        console.log("ultra data: ", newItems);
+
+        setRows(newItems);
         // console.log("end data: ", ultraData);
         // setRows(
         //   createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
@@ -190,52 +262,117 @@ const allItems = await getItemsByConditionAll(nameCol.type);
     };
 
     getProducts();
-  }, [nameCol]);
+  }, []);
   const handleItemSelected = (value) => {
-    let str = ""
-      switch(value.index){
-        case 0:
-          str = "coats"
-          break;
-          case 1:
-          str = "formal_shirts"
-          break;
-          case 2:
-          str = "sportswear"
+    let str = "";
+    switch (value.index) {
+      case 0:
+        str = "coats";
+        break;
+      case 1:
+        str = "formal_shirts";
+        break;
+      case 2:
+        str = "sportswear";
 
-          break;
-          case 3:
-          str = "formal_shirts"
+        break;
+      case 3:
+        str = "formal_shirts";
 
-          break;
-          case 4:
-          str = "jeans"
+        break;
+      case 4:
+        str = "jeans";
 
-          break;
-          case 5:
-          str = "makeup"
-          break;
-        default:
-          break;
-
-      }
-    console.log(str, "value item selected");
-    if(value.index <=2){
-    let obj = { category: "men", type: str };
-    setNameCol(obj)
-      
-    }else{
-      let obj = { category: "woman", type: str };
-      setNameCol(obj)
+        break;
+      case 5:
+        str = "makeup";
+        break;
+      default:
+        break;
     }
-  }
+    console.log(str, "value item selected");
+    if (value.index <= 2) {
+      let obj = { category: "men", type: str };
+      setNameCol(obj);
+    } else {
+      let obj = { category: "woman", type: str };
+      setNameCol(obj);
+    }
+  };
+  const handlerOpenDialog = (boolean) => {
+    setOpenDialog(boolean);
+  };
   console.log("rows:", rows);
+  const handlerDelete = (value) => {
+    const newRows = rows.filter((i) => i.name !== value);
+    setRows(newRows);
+  };
+  const handlerUpdate = (row) => {
+    const newRows = rows.filter((i, index) => index !== row.index);
+    newRows.splice(row.index, 0, row); // to put in the same index of the array
+    // newRows.push(row);
+    console.log(newRows, "finally");
+    // debugger;
+    const newItems = newRows.map((item) =>
+      createData(
+        item.name,
+        item.price,
+        item.discount,
+        item.stock,
+        item.size,
+        4.0
+      )
+    );
+    setRows(newItems);
+  };
+  const handlerAddProduct = (newPro) => {
+    const newRows = rows;
+    newRows.splice(0, 0, newPro);
+    const newItems = newRows.map((item) =>
+    createData(
+      item.name,
+      item.price,
+      item.discount,
+      item.stock,
+      item.size,
+      4.0
+    )
+  );
+  setRows(newItems);
+  };
+  const valuesEmpties = {
+    name: " ",
+    price: " ",
+    discount: " ",
+    stock: " ",
+    size: " ",
+    amount: " ",
+  };
+
   return (
     <>
       <NavBarAdmin />
       <Container className={style.containerSplitButton}>
-        <SplitButton itemSelected={handleItemSelected}/>
+        <SplitButton itemSelected={handleItemSelected} />
       </Container>
+      <Container className={style.containerAddProduct}>
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<AddCircleOutlineIcon />}
+          onClick={() => setOpenDialog(true)}
+        >
+          Agregar producto
+        </Button>
+        <DialogEdit
+          openDialog={openDialog}
+          handlerOpen={handlerOpenDialog}
+          handlerUpdate={handlerAddProduct}
+          data={valuesEmpties}
+          index={0}
+        />
+      </Container>
+
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
           <TableHead>
@@ -250,7 +387,13 @@ const allItems = await getItemsByConditionAll(nameCol.type);
           </TableHead>
           <TableBody>
             {rows.map((row, index) => (
-              <Row key={index} row={row} />
+              <Row
+                key={index}
+                index={index}
+                row={row}
+                handlerDelete={handlerDelete}
+                handlerUpdate={handlerUpdate}
+              />
             ))}
           </TableBody>
         </Table>
@@ -258,12 +401,3 @@ const allItems = await getItemsByConditionAll(nameCol.type);
     </>
   );
 }
-// const Admin = () => {
-//   return (
-//     <>
-//     <NavBarAdmin/>
-//     </>
-//   )
-// }
-
-// export default Admin
