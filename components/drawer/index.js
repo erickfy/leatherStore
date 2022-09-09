@@ -9,6 +9,8 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import DialogForm from "components/dialogForm"
 import {
   Collapse,
   Paper,
@@ -19,10 +21,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Container,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getItemsByConditionAll } from "service/api";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import style from './Drawer.module.css'
 
 const drawerBleeding = 56;
 
@@ -58,6 +63,7 @@ function SwipeableEdgeDrawer(props) {
   //callback
   //table
   const [rows, setRows] = useState([]);
+  const [openDialogForm, setOpenDialogForm] = useState(false);
 
   useEffect(() => {
     const getProducts = async () => {
@@ -91,7 +97,9 @@ function SwipeableEdgeDrawer(props) {
   // This is used only for the example
   const container =
     window !== undefined ? () => window().document.body : undefined;
-
+const handlerOpen = (value) => {
+  setOpenDialogForm(value)
+}
   return (
     <Root>
       <CssBaseline />
@@ -139,8 +147,19 @@ function SwipeableEdgeDrawer(props) {
           >
             <Puller />
             <Typography sx={{ p: 2, color: "text.secondary" }}>
-              51 resultados
+              51 resultados en el carrito
             </Typography>
+            <Container className={style.containerGenerateInvoice}>
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<HistoryEduIcon />}
+          onClick={() => setOpenDialogForm(true)}
+        >
+          Generar Factura
+        </Button>
+<DialogForm open={openDialogForm} handlerOpen={handlerOpen} />
+      </Container>
           </StyledBox>
           <TableContainer component={Paper}>
             <Table aria-label="collapsible table">

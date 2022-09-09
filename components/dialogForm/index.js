@@ -47,21 +47,25 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function FormDialog({
-  openDialog,
+  open,
   handlerOpen,
-  handlerUpdate,
-  data,
-  index,
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [userInfo, setUserInfo] = React.useState({
-    name: data.name,
-    price: data.price,
-    discount: data.discount,
-    stock: data.stock,
-    size: data.size,
+  // const [open, setOpen] = React.useState(false);
+  // const [userInfo, setUserInfo] = React.useState({
+  //   name: data.name,
+  //   price: data.price,
+  //   discount: data.discount,
+  //   stock: data.stock,
+  //   size: data.size,
+  // });
+    const [userInfo, setUserInfo] = React.useState({
+    name: "",
+    price: "",
+    discount: "",
+    stock: "",
+    size: "",
   });
-  console.log("why data:", data);
+  // console.log("why data:", data);
   // debugger;
 
   // const handleSubmits = (e) => {
@@ -88,22 +92,22 @@ export default function FormDialog({
   };
   return (
     <Dialog
-      open={openDialog}
+      open={open}
       onClose={() => handlerOpen(false)}
       TransitionComponent={Transition}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTitle>{data.name}</DialogTitle>
+        <DialogTitle>Generar Factura</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Para {data.name === " "? "crear un nuevo producto": "realizar una actualización"} empieza llenando los campos de
+            Para {userInfo.name !== " "? "generar una factura ": "realizar una actualización"} empieza llenando los campos de
             abajo.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label={`Nombre: ${userInfo.name}`}
+            label={`Nombres completos ${userInfo.name}`}
             type="text"
             fullWidth
             variant="standard"
@@ -123,7 +127,7 @@ export default function FormDialog({
           <TextField
             margin="dense"
             id="price"
-            label={`Precio: ${userInfo.price}`}
+            label={`Numero de Cedula${userInfo.price}`}
             type="number"
             fullWidth
             variant="standard"
@@ -143,7 +147,7 @@ export default function FormDialog({
           <TextField
             margin="dense"
             id="discount"
-            label={`Descuento: ${userInfo.discount}`}
+            label={`Ciudad${userInfo.discount}`}
             type="number"
             fullWidth
             variant="standard"
@@ -163,7 +167,7 @@ export default function FormDialog({
           <TextField
             margin="dense"
             id="stock"
-            label={`Stock: ${userInfo.stock}`}
+            label={` Dirección de domicilio${userInfo.stock}`}
             type="number"
             fullWidth
             variant="standard"
@@ -184,7 +188,7 @@ export default function FormDialog({
           <TextField
             margin="dense"
             id="size"
-            label={`Medida: ${userInfo.size}`}
+            label={`Numero de ceulular: ${userInfo.size}`}
             type="number"
             fullWidth
             variant="standard"
@@ -203,8 +207,8 @@ export default function FormDialog({
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handlerOpen(false)}>Cancelar</Button>
-          <Button type="submit">{data.name !== " "? "Actualizar": "Crear"}</Button>
+          <Button onClick={() => handlerOpen(false)}>Cancel</Button>
+          <Button type="submit">Generar</Button>
         </DialogActions>
       </form>
     </Dialog>

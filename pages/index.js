@@ -44,127 +44,123 @@ const Home = () => {
         </div>
         <Grid
           container
-          columns={{ xs: 12, sm: 12, md:12, lg:12}}
+          columns={{ xs: 12, sm: 12, md: 12, lg: 12 }}
           // columnSpacing={{ xs: 12, sm: 10, md: 20 }}
         >
           <Grid item xs={12} sm={6} md={4} lg={3}>
-
-
-            <Grid className={styles.grid} >
-            <Link
-              href={{
-                pathname: "/categories",
-                query: { key: "sportswear", genre:"man" },
-              }}
-              
-            >
-              <div style={{cursor:"pointer"}}>
-                <Image
-                  src={imageSport}
-                  alt="leather jacket"
-                  width={300}
-                  height={300}
-                />
-                <Container className={styles.container_card}>
-                  <Typography
-                    variant="subtitle2"
-                    noWrap
-                    component="div"
-                    align="left"
-                  >
-                    Ropa Deportiva
-                  </Typography>
-                </Container>
-              </div>
-            </Link>
+            <Grid className={styles.grid}>
+              <Link
+                href={{
+                  pathname: "/categories",
+                  query: { key: "sportswear", genre: "man" },
+                }}
+              >
+                <div style={{ cursor: "pointer" }}>
+                  <Image
+                    src={imageSport}
+                    alt="leather jacket"
+                    width={300}
+                    height={300}
+                  />
+                  <Container className={styles.container_card}>
+                    <Typography
+                      variant="subtitle2"
+                      noWrap
+                      component="div"
+                      align="left"
+                    >
+                      Ropa Deportiva
+                    </Typography>
+                  </Container>
+                </div>
+              </Link>
             </Grid>
           </Grid>
 
           <Grid item xs={12} sm={6} md={4} lg={3}>
-            <div className={styles.container_card} >
-            <Link
-              href={{
-                pathname: "/categories",
-                query: { key: "coats", genre:"man" },
-              }}
-              
-            >
-              <div style={{cursor:"pointer"}}>
-
-              <Image
-                src={imageCoat}
-                alt="leather jacket"
-                width={300}
-                height={300}
-                />
-
-              <Typography
-                variant="subtitle2"
-                noWrap
-                component="div"
-                align="left"
-                >
-                Chaquetas
-              </Typography>
-                </div>
-                </Link>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
             <div className={styles.container_card}>
-            <Link
-              href={{
-                pathname: "/categories",
-                query: { key: "sportswear", genre:"women" },
-              }}
-              
-            >
-            <div style={{cursor:"pointer"}}>
-              <Image
-                src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/R31875.jpg"
-                alt="leather jacket"
-                width={300}
-                height={300}
-              />
-
-              <Typography
-                variant="subtitle2"
-                noWrap
-                component="div"
-                align="left"
+              <Link
+                href={{
+                  pathname: "/categories",
+                  query: { key: "coats", genre: "man" },
+                }}
               >
-                Vestidos
-              </Typography>
-              </div>
+                <div style={{ cursor: "pointer" }}>
+                  <Image
+                    src={imageCoat}
+                    alt="leather jacket"
+                    width={300}
+                    height={300}
+                  />
+                  <Container className={styles.container_card}>
+                    <Typography
+                      variant="subtitle2"
+                      noWrap
+                      component="div"
+                      align="left"
+                    >
+                      Chaquetas
+                    </Typography>
+                  </Container>
+                </div>
               </Link>
             </div>
           </Grid>
           <Grid item xs={12} sm={6} md={4} lg={3}>
             <div className={styles.container_card}>
-            <Link
-              href={{
-                pathname: "/categories",
-                query: { keyword: "sportswear" },
-              }}
-              
-            >
-            <div style={{cursor:"pointer"}}>
-              <Image
-                src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/473833.jpg?X56"
-                alt="leather jacket"
-                width={300}
-                height={300}
-              />
-
-              <Typography
-                variant="subtitle2"
-                noWrap
-                component="div"
-                align="left"
+              <Link
+                href={{
+                  pathname: "/categories",
+                  query: { key: "sportswear", genre: "women" },
+                }}
               >
-                Jeans
-              </Typography>
-              </div>
+                <div style={{ cursor: "pointer" }}>
+                  <Image
+                    src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/R31875.jpg"
+                    alt="leather jacket"
+                    width={300}
+                    height={300}
+                  />
+                  <Container className={styles.container_card}>
+                    <Typography
+                      variant="subtitle2"
+                      noWrap
+                      component="div"
+                      align="left"
+                    >
+                      Vestidos
+                    </Typography>
+                  </Container>
+                </div>
+              </Link>
+            </div>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <div className={styles.container_card}>
+              <Link
+                href={{
+                  pathname: "/categories",
+                  query: { keyword: "sportswear" },
+                }}
+              >
+                <div style={{ cursor: "pointer" }}>
+                  <Image
+                    src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/473833.jpg?X56"
+                    alt="leather jacket"
+                    width={300}
+                    height={300}
+                  />
+                  <Container className={styles.container_card}>
+                    <Typography
+                      variant="subtitle2"
+                      noWrap
+                      component="div"
+                      align="left"
+                    >
+                      Jeans
+                    </Typography>
+                  </Container>
+                </div>
               </Link>
             </div>
           </Grid>

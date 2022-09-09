@@ -117,7 +117,7 @@ export default function Login() {
   return (
     <div className={stylesProduct.loginCard}>
       <div className={stylesProduct.loginCardContainer}>
-        <button onClick={handleUpperCase}>send name</button>
+        {/* <button onClick={handleUpperCase}>send name</button> */}
         <Card.Img
           src={imgLogin.src}
           width="100"

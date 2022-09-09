@@ -17,18 +17,28 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Chart.js Line Chart",
+      text: "Products vs Price",
     },
   },
 };
-const labels = ["January", "February", "March", "April", "May", "June", "July"];
+
+// const labels = ["January", "February", "March", "April", "May", "June", "July"];
+const labels = [
+  "Abrigos y Chaquetas",
+  "Camisas formales",
+  "Ropa Deportiva",
+  "Vestidos",
+  "Jeans de Mujer",
+  "Maquillaje",
+];
+
 export const data = {
   labels,
   datasets: [
     {
       fill: true,
       type: "line",
-      label: "Dataset 2",
+      label: "Camisas Formales",
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "rgb(53, 162, 235)",
       backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -36,7 +46,7 @@ export const data = {
     {
       fill: true,
       type: "line",
-      label: "Dataset 2",
+      label: "Vestidos",
       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
       borderColor: "rgba(75,192,192,1)",
       backgroundColor: "rgba(75,192,192,1)",
@@ -87,10 +97,10 @@ function App() {
             <BarChart options={options} chartData={userData} />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={4}>
-            <LineChart chartData={userData} options={options}/>
+            <LineChart chartData={userData} options={options} />
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={4}>
-            <PieChart chartData={userData} options={options}/>
+            <PieChart chartData={userData} options={options} />
           </Grid>
         </Grid>
         {/* <div style={{ width: 700 }}>
