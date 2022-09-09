@@ -9,8 +9,9 @@ import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
-import DialogForm from "components/dialogForm"
+import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
+import DialogForm from "components/dialogForm";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Collapse,
   Paper,
@@ -27,7 +28,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { getItemsByConditionAll } from "service/api";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import style from './Drawer.module.css'
+import style from "./Drawer.module.css";
 
 const drawerBleeding = 56;
 
@@ -97,9 +98,15 @@ function SwipeableEdgeDrawer(props) {
   // This is used only for the example
   const container =
     window !== undefined ? () => window().document.body : undefined;
-const handlerOpen = (value) => {
-  setOpenDialogForm(value)
-}
+  const handlerOpen = (value) => {
+    setOpenDialogForm(value);
+  };
+  const handlerDelete = (value) => {
+    const newRows = rows.filter((i) => i.name !== value);
+    // debugger;
+    setRows(newRows);
+  };
+
   return (
     <Root>
       <CssBaseline />
@@ -150,18 +157,18 @@ const handlerOpen = (value) => {
               51 resultados en el carrito
             </Typography>
             <Container className={style.containerGenerateInvoice}>
-        <Button
-          variant="contained"
-          size="small"
-          startIcon={<HistoryEduIcon />}
-          onClick={() => setOpenDialogForm(true)}
-        >
-          Generar Factura
-        </Button>
-<DialogForm open={openDialogForm} handlerOpen={handlerOpen} />
-      </Container>
+              <Button
+                variant="contained"
+                size="small"
+                startIcon={<HistoryEduIcon />}
+                onClick={() => setOpenDialogForm(true)}
+              >
+                Generar Factura
+              </Button>
+              <DialogForm open={openDialogForm} handlerOpen={handlerOpen} />
+            </Container>
           </StyledBox>
-          <TableContainer component={Paper}>
+          <TableContainer component={Paper} className={style.containerTable}>
             <Table aria-label="collapsible table">
               <TableHead>
                 <TableRow>
@@ -174,8 +181,8 @@ const handlerOpen = (value) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row) => (
-                  <Row key={row.name} row={row} />
+                {rows.map((row, index) => (
+                  <Row key={index} row={row} handlerDelete={handlerDelete}/>
                 ))}
               </TableBody>
             </Table>
@@ -221,9 +228,12 @@ function createData(name, price, discount, stock, size, amount) {
   };
 }
 function Row(props) {
-  const { row } = props;
+  const { row, handlerDelete } = props;
   const [open, setOpen] = React.useState(false);
-
+  const handlerDeleteAndClose = (val) => {
+    handlerDelete(val)
+    setOpen(false);
+  }
   return (
     <React.Fragment>
       <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -248,6 +258,11 @@ function Row(props) {
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
+              <Button variant="contained" startIcon={<DeleteForeverIcon/>} onClick={()=>handlerDeleteAndClose(row.name)}>
+                Eliminar Producto
+              </Button>
+            </Box>
+            {/* <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 History
               </Typography>
@@ -275,7 +290,7 @@ function Row(props) {
                   ))}
                 </TableBody>
               </Table>
-            </Box>
+            </Box> */}
           </Collapse>
         </TableCell>
       </TableRow>
@@ -300,6 +315,7 @@ Row.propTypes = {
     price: PropTypes.number.isRequired,
     discount: PropTypes.number.isRequired,
   }).isRequired,
+  handlerDelete: PropTypes.func,
 };
 
 export default SwipeableEdgeDrawer;
