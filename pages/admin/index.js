@@ -174,13 +174,6 @@ function Row(props) {
     </React.Fragment>
   );
 }
-// name,
-// price,
-// discount,
-// stock,
-// size,
-// amount,
-
 Row.propTypes = {
   row: PropTypes.shape({
     stock: PropTypes.number.isRequired,
@@ -219,10 +212,8 @@ export default function Admin() {
     const getProducts = async () => {
       // const response = await fetch(`/data/women/jeans.json`);
       let str = `/data/${nameCol.category}/${nameCol.type}.json`;
-      console.log(str, "str");
       //firebase
       const allItems = await getItemsByConditionAll(nameCol.type);
-      // console.log(allItems);
       // setProduct(allItems[0].data);
       //firebase
 
@@ -231,7 +222,6 @@ export default function Admin() {
 
       // setProducts(data);
       // setFilteredProducts(data);
-      console.log("data", allItems[0].data);
       if (allItems[0].data) {
         // name,
         // price,
@@ -243,22 +233,8 @@ export default function Admin() {
           // createData(item.title, item.price, 159, 6.0, 24, 4.0, 3.99)
           createData(item.title, item.price, 159, 6.0, 25, 4.0)
         );
-        console.log("ultra data: ", newItems);
-
         setRows(newItems);
-        // console.log("end data: ", ultraData);
-        // setRows(
-        //   createData("Frozen yoghurt", 159, 6.0, 24, 4.0, 3.99),
-        //   createData("Ice cream sandwich", 237, 9.0, 37, 4.3, 4.99),
-        //   createData("Eclair", 262, 16.0, 24, 6.0, 3.79),
-        //   createData("Cupcake", 305, 3.7, 67, 4.3, 2.5),
-        //   createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5)
-        // );
-        // const newItem = data.filter((i) => outputWithSpace(i.title) === key);
-        // console.log("your item selected: ", newItem);
-        // setProduct(newItem);
       }
-      // setMatches(matchesAux);
     };
 
     getProducts();
@@ -290,7 +266,6 @@ export default function Admin() {
       default:
         break;
     }
-    console.log(str, "value item selected");
     if (value.index <= 2) {
       let obj = { category: "men", type: str };
       setNameCol(obj);
@@ -302,7 +277,6 @@ export default function Admin() {
   const handlerOpenDialog = (boolean) => {
     setOpenDialog(boolean);
   };
-  console.log("rows:", rows);
   const handlerDelete = (value) => {
     const newRows = rows.filter((i) => i.name !== value);
     setRows(newRows);
@@ -310,9 +284,6 @@ export default function Admin() {
   const handlerUpdate = (row) => {
     const newRows = rows.filter((i, index) => index !== row.index);
     newRows.splice(row.index, 0, row); // to put in the same index of the array
-    // newRows.push(row);
-    console.log(newRows, "finally");
-    // debugger;
     const newItems = newRows.map((item) =>
       createData(
         item.name,
