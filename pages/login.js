@@ -45,7 +45,7 @@ export default function Login() {
   useEffect(() => {
     (async () => {
       await onAuthStateChanged(auth, (currentUser) => {
-        console.log("auth", auth);
+        // console.log("auth", auth);
         if (currentUser) {
           const uid = user.uid;
         } else {
@@ -77,7 +77,7 @@ export default function Login() {
         email,
         password
       );
-      console.log("correct:", user_);
+      // console.log("correct:", user_);
       setError("")
       if(email === "admin@gmail.com" && password === "superadmin"){
         router.push({pathname: '/admin', query: {jwt: "pdvwSchhINbT69qmUDNN"}})
@@ -85,7 +85,7 @@ export default function Login() {
         router.push("/categories")
       }
     } catch (error) {
-      console.log("not working", error.message);
+      // console.log("not working", error.message);
       setError("Usuario no registrado")
     }
     // add user to firestore
