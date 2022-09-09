@@ -61,14 +61,6 @@ export default function FormDialog({
     stock: data.stock,
     size: data.size,
   });
-  console.log("why data:", data);
-  // debugger;
-
-  // const handleSubmits = (e) => {
-  //   e.preventDefault();
-  //   console.log("rows dialogn", data);
-  //   console.log("e", e.target);
-  // };
 
   const {
     register,
