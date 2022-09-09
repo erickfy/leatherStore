@@ -13,24 +13,24 @@ import {
 import { getAdditionalUserInfo, onAuthStateChanged } from "firebase/auth";
 import { auth } from "firebase-config";
 
-const json = () => {
+const Json = () => {
   const [isLogged, setIsLogged] = useState(false);
-  useEffect(() => {
-    (async () => {
-      await onAuthStateChanged(auth, (currentUser) => {
-        console.log("auth", auth);
-        if (currentUser) {
-          console.log("user", currentUser);
-          const uid = currentUser.uid;
-          setIsLogged(true);
-        } else {
-          console.log("No user logged");
-          setIsLogged(false);
-        }
-        // setUser(currentUser);
-      });
-    })();
-  }, []);
+  // useEffect(() => {
+  //   // (async () => {
+  //   //   await onAuthStateChanged(auth, (currentUser) => {
+  //   //     console.log("auth", auth);
+  //   //     if (currentUser) {
+  //   //       console.log("user", currentUser);
+  //   //       const uid = currentUser.uid;
+  //   //       setIsLogged(true);
+  //   //     } else {
+  //   //       console.log("No user logged");
+  //   //       setIsLogged(false);
+  //   //     }
+  //   //     // setUser(currentUser);
+  //   //   });
+  //   // })();
+  // }, []);
   // useEffect(() => {
   //     onAuthStateChanged(auth, user => {
   //         if (user) {
@@ -113,19 +113,19 @@ const json = () => {
     createItem({ name: "erick" });
   };
   let nameCol = "makeup";
-  useEffect(() => {
-    const getProducts = async () => {
-      const response = await fetch(`/data/women/${nameCol}.json`);
-      const res = await response.json();
-      console.log(res.length);
-      // setProduct(data);
-      // console.log("res",res)
-      // createItem({data}, "coats")
-      setData(res);
-    };
+  // useEffect(() => {
+  //   const getProducts = async () => {
+  //     const response = await fetch(`/data/women/${nameCol}.json`);
+  //     const res = await response.json();
+  //     console.log(res.length);
+  //     // setProduct(data);
+  //     // console.log("res",res)
+  //     // createItem({data}, "coats")
+  //     setData(res);
+  //   };
 
-    getProducts();
-  }, []);
+  //   getProducts();
+  // }, []);
   const handleCreate = async () => {
     // console.log("first", ...data)
     const res = await createItem({ data }, nameCol);
@@ -159,4 +159,4 @@ const json = () => {
   );
 };
 
-export default json;
+export default Json;

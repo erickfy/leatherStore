@@ -40,7 +40,7 @@ console.log(allItems);
     };
 
     getProducts();
-  }, [page]);
+  }, [page, nameCol]);
   const handlePag = (event, value) => {
     // if()
     // console.log("e:", value);

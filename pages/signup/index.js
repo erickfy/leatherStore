@@ -3,9 +3,6 @@ import Button from "react-bootstrap/Button";
 import styles from "../../styles/Home.module.css";
 import { Card } from "react-bootstrap";
 import stylesProduct from "../../styles/Product.module.css";
-import google from "imgs/svgs/google.svg";
-import facebook from "imgs/svgs/facebook.svg";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, Typography } from "@mui/material";
 import Image from "next/image";
@@ -61,7 +58,7 @@ export default function Login() {
         setUser(currentUser);
       });
     })();
-  }, []);
+  }, [user]);
 
   // hookForm
   const {

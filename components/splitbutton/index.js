@@ -1,4 +1,3 @@
-import * as React from "react";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -8,7 +7,7 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 const options = [
   "Abrigos y Chaquetas",
@@ -27,7 +26,7 @@ export default function SplitButton({ itemSelected }) {
   useEffect(() => {
     let obj = { value: options[selectedIndex], index: selectedIndex };
     itemSelected(obj);
-  }, [selectedIndex]);
+  }, [selectedIndex, itemSelected]);
   const handleClick = () => {
     // console.info(`You clicked ${options[selectedIndex]}`);
     let obj = { value: options[selectedIndex], index: selectedIndex };
@@ -53,7 +52,7 @@ export default function SplitButton({ itemSelected }) {
   };
 
   return (
-    <React.Fragment>
+    <>
       <ButtonGroup
         variant="contained"
         ref={anchorRef}
@@ -107,6 +106,6 @@ export default function SplitButton({ itemSelected }) {
           </Grow>
         )}
       </Popper>
-    </React.Fragment>
+    </>
   );
 }

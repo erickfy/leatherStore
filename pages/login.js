@@ -53,7 +53,7 @@ export default function Login() {
         setUser(currentUser);
       });
     })();
-  }, []);
+  }, [user.uid]);
 
 
 

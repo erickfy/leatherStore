@@ -76,7 +76,7 @@ const Buying = () => {
     };
 
     getProducts();
-  }, [key]);
+  }, [key, type]);
   const handleAlert = async () => {
     setOpenAlert(true);
     handlePushProductCart();

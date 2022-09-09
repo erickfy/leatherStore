@@ -262,7 +262,7 @@ export default function Admin() {
     };
 
     getProducts();
-  }, []);
+  }, [nameCol]);
   const handleItemSelected = (value) => {
     let str = "";
     switch (value.index) {
