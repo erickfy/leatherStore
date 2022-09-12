@@ -8,10 +8,15 @@ import {
   getItemById,
   deleteItem,
   getArrayFromCollection,
-  getItemsByConditionAll,getUser
+  getItemsByConditionAll,
+  getUser,
+  setNewDoc,
 } from "service/api";
+import { storage } from "firebase-config.js";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { getAdditionalUserInfo, onAuthStateChanged } from "firebase/auth";
 import { auth } from "firebase-config";
+import { setConstantValue } from "typescript";
 
 const Json = () => {
   const [isLogged, setIsLogged] = useState(false);
@@ -84,6 +89,9 @@ const Json = () => {
   //   })();
   // }, []);
   const [data, setData] = useState(null);
+  const [name, setName] = useState("");
+  const [file, setFile] = useState("");
+  const [percent, setPercent] = useState(0);
   const handlecreateItem = () => {
     createItem({ name: "erick" });
   };
@@ -138,14 +146,26 @@ const Json = () => {
       console.log("i:", i.title);
       console.log("index", index);
     });
-    console.log("item", getUser())
+    console.log("item", getUser());
   };
   const handleGetUser = async () => {
-    const allItems = await getItemsByConditionAll("users")
-    const itemIs = allItems.filter((i, index) => i.id === "4oeD4YEgZnBp7J05RvJ3");
-    console.log("Item: ", itemIs)
-    console.log(await getUser("users"))
-  }
+    const allItems = await getItemsByConditionAll("users");
+    const itemIs = allItems.filter(
+      (i, index) => i.id === "4oeD4YEgZnBp7J05RvJ3"
+    );
+    console.log("Item: ", itemIs);
+    console.log(await getUser("users"));
+  };
+  const registerNewUser = (e) => {
+    e.preventDefault();
+    const item = e.currentTarget;
+    const i = item[0].value;
+
+    setName(i);
+    // id, obj, col
+    // setNewDoc(i, {name: i}, "users")
+  };
+
   return (
     <div>
       json
@@ -154,6 +174,11 @@ const Json = () => {
       {/* <button onClick={handleCreate}>send data</button> */}
       {/* <button onClick={handleGetIteration}>iteration data</button> */}
       <button onClick={handleGetUser}>get users</button>
+      <form onSubmit={registerNewUser}>
+        <input type="text" />
+        <button type="submit">Create user</button>
+      </form>
+      Name: {name}
       {/* <button onClick={handleGET}>get by id</button> */}
     </div>
   );

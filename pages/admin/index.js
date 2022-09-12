@@ -58,7 +58,7 @@ function createData(name, price, discount, stock, size, amount) {
   };
 }
 function Row(props) {
-  const { row, handlerDelete, handlerUpdate, index } = props;
+  const { row, handlerDelete, handlerUpdate, index} = props;
   const [open, setOpen] = React.useState(false);
   const [openDialog, setOpenDialog] = React.useState(false);
   const actions = [
@@ -203,7 +203,11 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9, 1.5),
 ];
 
-export default function Admin() {
+export default function Admin(props) {
+  const {handlerBack} = props;
+  useEffect(()=> {
+    handlerBack({view: false})
+  },[])
   const [rows, setRows] = useState([]);
   const [nameCol, setNameCol] = useState({ category: "women", type: "jeans" });
   const [openDialog, setOpenDialog] = React.useState(false);

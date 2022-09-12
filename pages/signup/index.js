@@ -25,20 +25,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import imgLogin from "imgs/auth/login.jpg";
 import { useRouter } from "next/router";
-import { createItem } from "../../service/api";
+import { createItem, setNewDoc } from "../../service/api";
 
 // schema yup
 const schema = yup
   .object({
     username: yup.string().required("Campo incorrecto"),
+    name: yup.string().required("Campo incorrecto"),
     email: yup.string().required("Campo incorrecto"),
     password: yup.string().required("Campo incorrecto"),
     repassword: yup.string().required("Campo incorrecto"),
   })
   .required();
-export default function Login() {
+export default function Login(props) {
+  const {handlerBack} = props;
+  handlerBack({view: false})
   const [userInfo, setUserInfo] = useState({
     username: "",
+    name: "",
     email: "",
     password: "",
     repassword: "",
@@ -70,11 +74,7 @@ export default function Login() {
   const onSubmit = handleSubmit((values) => {
     console.log("values", values);
     (async () => {
-      let username = values.username;
-      let email = values.email;
-      // let password = values.password;
-      let password = values.password;
-      let repassword = values.repassword;
+      const {name, username, password, repassword, email} = values;
       if (password !== repassword) {
         setError("Ingresa correctamente las dos contraseñas");
       } else {
@@ -93,11 +93,16 @@ export default function Login() {
           setError("Usuario no registrado");
         }
 
-        sendDataFirestore(username, email, password);
+        // sendDataFirestore(username, email, password);
+        sendDataToUsersFireStore(name, username, email, password);
       }
     })();
   });
-
+const sendDataToUsersFireStore = (nm, usernm, email, password) => {
+  let obj = {name: handleUpperCase(nm), username: handleUpperCase(usernm), email: email, password: password}
+    // id, obj, col
+    setNewDoc(email, obj, "users")
+}
   const sendDataFirestore = (username, email, password) => {
     let userName = handleUpperCase(username);
     const obj = { username: userName, email: email, password: password };
@@ -118,7 +123,7 @@ export default function Login() {
         <Card.Img
           src={imgLogin.src}
           width="100"
-          height="550"
+          height="650"
           className={stylesProduct.cardImage}
         />
         <Card border="secondary" style={{ width: "30rem" }}>
@@ -129,10 +134,10 @@ export default function Login() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <Card.Title className="text-center">Registrate</Card.Title>
               <Form.Group className="" controlId="formBasicEmail">
-                <Form.Label>Nombre completo</Form.Label>
+                <Form.Label>Nombre de usuario</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Ingresa el nombre"
+                  placeholder="Ingresa el nombre de usuario"
                   onChange={({ target }) => {
                     setUserInfo({ ...userInfo, username: target.value });
                   }}
@@ -144,6 +149,24 @@ export default function Login() {
                   className="ms-2"
                 >
                   {errors.username?.message}
+                </Typography>
+              </Form.Group>
+              <Form.Group className="" controlId="formBasicEmail">
+                <Form.Label>Nombre completo</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Ingresa el nombre completo"
+                  onChange={({ target }) => {
+                    setUserInfo({ ...userInfo, name: target.value });
+                  }}
+                  {...register("name")}
+                />
+                <Typography
+                  variant="caption"
+                  style={{ color: "red" }}
+                  className="ms-2"
+                >
+                  {errors.name?.message}
                 </Typography>
               </Form.Group>
 

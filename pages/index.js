@@ -1,279 +1,182 @@
-import Head from "next/head";
-import Image from "next/image";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import styles from "../styles/Home.module.css";
-import Carrousel from "@/components/carrousel";
+import { Card } from "react-bootstrap";
+import stylesProduct from "../styles/Product.module.css";
+import google from "imgs/svgs/google.svg";
+import facebook from "imgs/svgs/facebook.svg";
 
-import { Container, Divider, Grid, Typography } from "@mui/material";
-import image from "imgs/jackOseaOprey.jpg";
-import Categories from "./categories";
-import Footer from "components/footer";
-import AppBarStore from "@/components/appbar";
-import { Card, Col, Row } from "react-bootstrap";
-import Link from "next/link";
-const imageSport =
-  "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/403704.jpg?X56";
-const imageCoat =
-  "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/525517.jpg?X56";
-const image33 =
-  "https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/L26457.jpg?X56";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Link, Typography } from "@mui/material";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  getAuth,
+} from "firebase/auth";
+import {
+  auth,
+  provider,
+  signInWithFacebook,
+  signInWithGoogle,
+} from "firebase-config";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import imgLogin from "imgs/auth/login.jpg";
+import { useRouter } from 'next/router'
+import { createItem } from "../service/api";
+// schema yup
+const schema = yup
+  .object({
+    email: yup.string().required("Campo incorrecto"),
+    password: yup.string().required("Campo incorrecto"),
+  })
+  .required();
+export default function Login(props) {
+  const {handlerBack} = props;
 
-const Home = () => {
+  useEffect(()=> {
+    handlerBack({view: false})
+  },[])
+  const [userInfo, setUserInfo] = useState({ email: "", password: "" });
+  const [user, setUser] = useState({});
+  const [error, setError] = useState("");
+  const router = useRouter()
+
+  useEffect(() => {
+    (async () => {
+      await onAuthStateChanged(auth, (currentUser) => {
+        // console.log("auth", auth);
+        if (currentUser) {
+          const uid = user.uid;
+        } else {
+        }
+        setUser(currentUser);
+      });
+    })();
+  }, [user]);
+
+
+
+  const logout = async () => {
+    await signOut(auth);
+  };
+  // hookForm
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm({ resolver: yupResolver(schema) });
+  const onSubmit = handleSubmit(async (values) => {
+    let email = values.email;
+    let password = values.password;
+
+    try {
+      const user_ = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      // console.log("correct:", user_);
+      setError("")
+      if(email === "admin@gmail.com" && password === "superadmin"){
+        router.push({pathname: '/admin', query: {jwt: "pdvwSchhINbT69qmUDNN"}})
+      }else{
+        router.push("/dashboard")
+      }
+    } catch (error) {
+      // console.log("not working", error.message);
+      setError("Usuario no registrado")
+    }
+    // add user to firestore
+    // createItem()
+  });
   return (
-    <>
-      <AppBarStore />
-      <Carrousel />
-      <Grid container spacing={2} s className={styles.container}>
-        <div className={styles.container_title}>
-          <Typography
-            variant="subtitle1"
-            // noWrap
-            component="div"
-            align="left"
-          >
-            Venta de Temporada
-          </Typography>
-          <Typography
-            variant="subtitle2"
-            // noWrap={false }
-            paragraph
-            component="div"
-            align="left"
-          >
-            Compra ahora
-          </Typography>
-        </div>
-        <Grid
-          container
-          columns={{ xs: 12, sm: 12, md: 12, lg: 12 }}
-          // columnSpacing={{ xs: 12, sm: 10, md: 20 }}
-        >
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <Grid className={styles.grid}>
-              <Link
-                href={{
-                  pathname: "/categories",
-                  query: { key: "sportswear", genre: "man" },
-                }}
-              >
-                <div style={{ cursor: "pointer" }}>
-                  <Image
-                    src={imageSport}
-                    alt="leather jacket"
-                    width={300}
-                    height={300}
-                  />
-                  <Container className={styles.container_card}>
-                    <Typography
-                      variant="subtitle2"
-                      noWrap
-                      component="div"
-                      align="left"
-                    >
-                      Ropa Deportiva
-                    </Typography>
-                  </Container>
-                </div>
-              </Link>
-            </Grid>
-          </Grid>
 
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <div className={styles.container_card}>
-              <Link
-                href={{
-                  pathname: "/categories",
-                  query: { key: "coats", genre: "man" },
-                }}
-              >
-                <div style={{ cursor: "pointer" }}>
-                  <Image
-                    src={imageCoat}
-                    alt="leather jacket"
-                    width={300}
-                    height={300}
-                  />
-                  <Container className={styles.container_card}>
-                    <Typography
-                      variant="subtitle2"
-                      noWrap
-                      component="div"
-                      align="left"
-                    >
-                      Chaquetas
-                    </Typography>
-                  </Container>
-                </div>
-              </Link>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <div className={styles.container_card}>
-              <Link
-                href={{
-                  pathname: "/categories",
-                  query: { key: "sportswear", genre: "women" },
-                }}
-              >
-                <div style={{ cursor: "pointer" }}>
-                  <Image
-                    src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/R31875.jpg"
-                    alt="leather jacket"
-                    width={300}
-                    height={300}
-                  />
-                  <Container className={styles.container_card}>
-                    <Typography
-                      variant="subtitle2"
-                      noWrap
-                      component="div"
-                      align="left"
-                    >
-                      Vestidos
-                    </Typography>
-                  </Container>
-                </div>
-              </Link>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-            <div className={styles.container_card}>
-              <Link
-                href={{
-                  pathname: "/categories",
-                  query: { keyword: "sportswear" },
-                }}
-              >
-                <div style={{ cursor: "pointer" }}>
-                  <Image
-                    src="https://xcdn.next.co.uk/Common/Items/Default/Default/ItemImages/Search/224x336/473833.jpg?X56"
-                    alt="leather jacket"
-                    width={300}
-                    height={300}
-                  />
-                  <Container className={styles.container_card}>
-                    <Typography
-                      variant="subtitle2"
-                      noWrap
-                      component="div"
-                      align="left"
-                    >
-                      Jeans
-                    </Typography>
-                  </Container>
-                </div>
-              </Link>
-            </div>
-          </Grid>
-        </Grid>
-      </Grid>
-      <Divider />
-      <Grid container></Grid>
-      <Footer />
-    </>
-  );
-};
-
-export default Home;
-// type --> jackets, handbags, shoes
-export const pages = [
-  {
-    href: "/categories",
-    icon: "shirtOutline",
-    component: "Categories",
-    default: true,
-    isTab: true,
-  },
-  {
-    href: "/categories/:category/:type",
-    component: "ProductType",
-    default: false,
-    isTab: false,
-  },
-  {
-    href: "/categories/:category",
-    icon: "shirtOutline",
-    component: "Category",
-    default: true,
-    isTab: false,
-  },
-  {
-    href: "/favourites",
-    icon: "heartOutline",
-    component: "Favourites",
-    default: false,
-    isTab: true,
-  },
-  {
-    href: "/shopping",
-    icon: "heartOutline",
-    component: "Favourites",
-    default: false,
-    isTab: true,
-  },
-];
-
-/*
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <meta name="description" content="Generated by create next app" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+    <div className={stylesProduct.loginCard}>
+      <div className={stylesProduct.loginCardContainer}>
+        {/* <button onClick={logout}>salir</button> */}
+        <Card.Img
+          src={imgLogin.src}
+          width="100"
+          height="400"
+          className={stylesProduct.cardImage}
+        />
+        <Card border="secondary" style={{ width: "30rem" }}>
+          <Card.Header className="text-center bg-black text-white">
+            Leather Store
+          </Card.Header>
+          <Card.Body>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Card.Title className="text-center">Bienvenido</Card.Title>
+              <Form.Group className="mb-1" controlId="formBasicEmail">
+                <Form.Label>Correo electronico</Form.Label>
+                <Form.Control
+                  placeholder="Ingresa el email"
+                  onChange={({ target }) =>
+                    setUserInfo({ ...userInfo, email: target.value })
+                  }
+                  type="email"
+                  {...register("email")}
+                />
+                <Typography
+                  variant="caption"
+                  style={{ color: "red" }}
+                  className="ms-2"
+                >
+                  {errors.email?.message}
+                </Typography>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Contraseña</Form.Label>
+                <Form.Control
+                  placeholder="Ingresa la contraseña"
+                  onChange={({ target }) =>
+                    setUserInfo({ ...userInfo, password: target.value })
+                  }
+                  type="password"
+                  {...register("password")}
+                />
+                <Typography
+                  variant="caption"
+                  style={{ color: "red" }}
+                  className="ms-2"
+                >
+                  {errors.password?.message}
+                </Typography>
+              </Form.Group>
+              <div className="d-grid gap-2">
+                <Button
+                  variant="primary"
+                  type="submit"
+                  className="text-center "
+                >
+                  Ingresar
+                </Button>
+                {error ? 
+                   <Typography
+                   variant="caption"
+                   style={{ color: "red" }}
+                   className="ms-2"
+                 >
+                   Usuario no encontrado 
+                   <Link href="/signup"> Registrate aqui!</Link>
+                 
+                 </Typography>
+                : ""}
+             
+                
+              </div>
+            </form>
+          </Card.Body>
+        </Card>
+        {/* {user?.email} */}
+      </div>
     </div>
-  )
-*/
+  );
+}

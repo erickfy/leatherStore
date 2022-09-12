@@ -1,20 +1,19 @@
-import React, {useState} from 'react'
-import AppBarStore from 'components/appbar'
-import Footer from 'components/footer'
+import React, { useEffect, useState } from "react";
+import AppBarStore from "components/appbar";
+import Footer from "components/footer";
 
-function Layout({children}) {
+function Layout({ children, data }) {
   const [item, setItem] = useState("");
-  const itemCallBacks = (e) => {
-    console.log("item", e)
-  }
-console.log("item: ",item)
+useEffect(()=>{
+  console.log("how many mounts");
+}, [])
   return (
     <>
-    <AppBarStore itemCallBack={itemCallBacks}/>
-    {children}
-    <Footer/>
+      {data.view ? <AppBarStore /> : <></>}
+      {children}
+      {data.view ? <Footer /> : <></>}
     </>
-  )
+  );
 }
 
-export default Layout
+export default Layout;

@@ -10,37 +10,46 @@ import { Grid, Pagination } from "@mui/material";
 import { getItemsByConditionAll } from "service/api";
 import Footer from "components/footer";
 import AppBarStore from "@/components/appbar";
-const Categories = () => {
+const Categories = (props) => {
+  const {handlerBack} = props;
+  useEffect(()=> {
+    handlerBack({view: true})
+  },[])
   const [product, setProduct] = useState([]);
   const [page, setPage] = useState(1);
   const [lengthPage, setLengthPage] = useState(0);
   const [rangeProduct, setRangeProduct] = useState({ min: 0, max: 10 });
   const [nameCol, setNameCol] = useState("jeans");
   const router = useRouter();
-  const key = router.query.keyword;
-  // console.log("key", key);
-  const categories = Object.keys(productInfo);
+  const gender= router.query.gender;
+  const type = router.query.type;
   useEffect(() => {
     const getProducts = async () => {
 //get data firebase
-const allItems = await getItemsByConditionAll(nameCol);
-console.log(allItems);
+const typer = type;
+  const allItems = await getItemsByConditionAll(type);
+  if(allItems[0]){
+    if(allItems[0].data){
+
       setProduct(allItems[0].data);
+      handlerBack({...allItems[0].data, view: true})
+    }
+  }
+  //get data firebase
+  
+        const response = await fetch(`/data/${gender}/${type}.json`);
+        const data = await response.json();
+        let max = page * 10;
+        let min = max - 10;
+        // product.slice(min, max).map((i) => console.log("i:", i.title));
+        // console.log("data", data.length, min);
+        // setProduct(data);
+        setLengthPage(Math.round(data.length / 10));
+      };
+  
+      getProducts();
 
-//get data firebase
-
-      const response = await fetch(`/data/men/coats.json`);
-      const data = await response.json();
-      let max = page * 10;
-      let min = max - 10;
-      // product.slice(min, max).map((i) => console.log("i:", i.title));
-      // console.log("data", data.length, min);
-      // setProduct(data);
-      setLengthPage(Math.round(data.length / 10));
-    };
-
-    getProducts();
-  }, [page, nameCol]);
+  }, [page, type]);
   const handlePag = (event, value) => {
     // if()
     // console.log("e:", value);
@@ -60,8 +69,6 @@ console.log(allItems);
   
   return (
     <>
-    <AppBarStore/>
-
     <Container className={styles.overalContainer}>
       <Grid className={styles.containerPagination}>
         <Pagination
@@ -77,7 +84,7 @@ console.log(allItems);
             <Link
               href={{
                 pathname: "/buying",
-                query: { keyword: outputWithSpace(i.title), type: nameCol },
+                query: { keyword: outputWithSpace(i.title), type: type, indexSelected: parseInt(index)},
               }}
             >
               <Card
@@ -138,7 +145,6 @@ console.log(allItems);
         />
       </Grid>
     </Container>
-    <Footer/>
 
     </>
 

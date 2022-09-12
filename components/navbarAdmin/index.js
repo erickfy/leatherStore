@@ -29,12 +29,17 @@ const Dashboard = () => {
               </Box>
               <Box sx={{ display: { xs: "none", sm: "flex" } }}>
                   <Link href="/admin">
-                <Nav.Link href="#action1">
+                    
+                <Nav.Link href="/admin">
                     Products
                 </Nav.Link>
                     </Link>
-                    <Link href="/admin/metrics">
-                <Nav.Link href="#action2">Metricas</Nav.Link>
+                    <Link
+                                href={{
+                                  pathname: "/admin/metrics",
+                                }}
+                              >
+                <Nav.Link href="/admin/metrics">Metricas</Nav.Link>
                     </Link>
                 {/* <NavDropdown title="Link" id="navbarScrollingDropdown">
                   <NavDropdown.Item href="#action3">Action</NavDropdown.Item>

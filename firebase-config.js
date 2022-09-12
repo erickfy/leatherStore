@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { GoogleAuthProvider, signInWithPopup, getAuth, FacebookAuthProvider,  setPersistence, browserLocalPersistence} from "firebase/auth";
 import { getFirestore } from 'firebase/firestore';
-
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: "AIzaSyC0uSMvvmB5EC3l7kXWDlZrdFdKl6NBTKg",
   authDomain: "mobileapp-88de9.firebaseapp.com",
@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth(app);
-
+export const storage = getStorage(app);
 // google auth
 const providerGoogle = new GoogleAuthProvider();
 const providerFacebook = new FacebookAuthProvider();

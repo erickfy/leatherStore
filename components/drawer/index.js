@@ -10,7 +10,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Typography from "@mui/material/Typography";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import HistoryEduIcon from "@mui/icons-material/HistoryEdu";
-import DialogForm from "components/dialogForm";
+import DialogFormInvoice from "components/dialogFormInvoice";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import {
   Collapse,
@@ -57,13 +57,9 @@ const Puller = styled(Box)(({ theme }) => ({
 function SwipeableEdgeDrawer(props) {
   const { window, toggleDrawer, open } = props;
   //   const [open, setOpen] = React.useState(true);
-  console.log("open", open);
-
-  //callback
-
-  //callback
   //table
   const [rows, setRows] = useState([]);
+  const [array, setArray] = useState(null);
   const [openDialogForm, setOpenDialogForm] = useState(false);
 
   useEffect(() => {
@@ -87,7 +83,9 @@ function SwipeableEdgeDrawer(props) {
         const newItems = allItems[0].data.map((item) =>
           createData(item.title, item.price, 159, 6.0, 24, 4.0, 3.99)
         );
-        console.log("ultra data: ", newItems);
+        // console.log("ultra data: ", newItems);
+        const array = newItems.filter((i, index) => index < 15);
+        setArray(array)
         setRows(newItems);
       }
     };
@@ -102,9 +100,9 @@ function SwipeableEdgeDrawer(props) {
     setOpenDialogForm(value);
   };
   const handlerDelete = (value) => {
-    const newRows = rows.filter((i) => i.name !== value);
+    const newRows = array.filter((i) => i.name !== value);
     // debugger;
-    setRows(newRows);
+    setArray(newRows);
   };
 
   return (
@@ -154,7 +152,7 @@ function SwipeableEdgeDrawer(props) {
           >
             <Puller />
             <Typography sx={{ p: 2, color: "text.secondary" }}>
-              51 resultados en el carrito
+              {array ? array.length: "?"} resultados en el carrito
             </Typography>
             <Container className={style.containerGenerateInvoice}>
               <Button
@@ -165,7 +163,7 @@ function SwipeableEdgeDrawer(props) {
               >
                 Generar Factura
               </Button>
-              <DialogForm open={openDialogForm} handlerOpen={handlerOpen} />
+              <DialogFormInvoice open={openDialogForm} handlerOpen={handlerOpen} data={array} />
             </Container>
           </StyledBox>
           <TableContainer component={Paper} className={style.containerTable}>
@@ -181,9 +179,10 @@ function SwipeableEdgeDrawer(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows.map((row, index) => (
+              {array ?
+                array.map((row, index) => (
                   <Row key={index} row={row} handlerDelete={handlerDelete}/>
-                ))}
+                )) : <></>}
               </TableBody>
             </Table>
           </TableContainer>

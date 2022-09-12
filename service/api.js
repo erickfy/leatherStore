@@ -1,6 +1,10 @@
 import { collection, getDocs, query, doc, getDoc, addDoc, deleteDoc, updateDoc, setDoc, where } from "firebase/firestore";
 import { db } from 'firebase-config.js';
 
+
+
+
+
 // CREATE
 export const createItem = async(obj, col) => {
     const colRef = collection(db, col);
@@ -20,8 +24,8 @@ export const setNewDoc = async (id, obj, col) => {
 
 
 // READ
-export const getItems= async ()  => {
-    const colRef = collection(db, 'items');
+export const getItems= async (col="items")  => {
+    const colRef = collection(db, col);
     const result = await getDocs(query(colRef));
     return getArrayFromCollection(result);
 }

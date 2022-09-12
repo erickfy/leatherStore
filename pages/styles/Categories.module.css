@@ -16,6 +16,7 @@
     display:unset;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 .textPrice{
     text-decoration: line-through;

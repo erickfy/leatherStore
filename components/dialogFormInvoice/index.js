@@ -15,30 +15,23 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Typography } from "@mui/material";
+import { generateInvoice } from "utils";
 // schema yup
 const schema = yup
   .object({
-    name: yup.string().required("Campo incorrecto"),
-    price: yup
+    names: yup.string().required("Campo incorrecto"),
+    ci: yup
       .number()
       .typeError("Especifique un número")
-      .min(0, "Mínimo valor $0.")
-      .max(1000, "Valor máximo de $1000."),
-    discount: yup
-      .number()
-      .typeError("Especifique la ciudad")
-      .min(0, "Mínimo valor $0.")
-      .max(1000, "Valor máximo de $1000."),
-    stock: yup
-      .number()
-      .typeError("Especifique su dirección")
-      .min(0, "Mínimo valor $0.")
-      .max(10000, "Valor máximo de $10000."),
-    size: yup
+      .min(1111111111, "Ejemplo de 1795285157.")
+      .max(9999999999, "Ejemplo de 1795285157."),
+    city: yup.string().required("Campo incorrecto"),
+    location: yup.string().required("Campo incorrecto"),
+    phone: yup
       .number()
       .typeError("Especifique un número")
-      .min(0, "Mínimo valor $0.")
-      .max(1000, "Valor máximo de $100."),
+      .min(1000000000, "Mínimo valor 1000000000.")
+      .max(9999999999, "Valor máximo de 9999999999."),
   })
   .required();
 
@@ -46,10 +39,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function FormDialog({
-  open,
-  handlerOpen,
-}) {
+export default function FormDialog({ open, handlerOpen, data }) {
   // const [open, setOpen] = React.useState(false);
   // const [userInfo, setUserInfo] = React.useState({
   //   name: data.name,
@@ -58,12 +48,12 @@ export default function FormDialog({
   //   stock: data.stock,
   //   size: data.size,
   // });
-    const [userInfo, setUserInfo] = React.useState({
+  const [userInfo, setUserInfo] = React.useState({
     name: "",
-    price: "",
-    discount: "",
-    stock: "",
-    size: "",
+    ci: 17347502758,
+    city: "",
+    location: "",
+    phone: 1912568293,
   });
   // console.log("why data:", data);
   // debugger;
@@ -81,10 +71,13 @@ export default function FormDialog({
     control,
   } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => {
-    const obj = { ...data, ...{ index: index } };
-    handlerUpdate(obj);
-    handlerOpen(false);
+  const onSubmit = (dayta) => {
+    let total = 0;
+    
+    data.forEach((item) => (total += (item.price - item.discount)));
+    const obj = { ...dayta, ...{total: 12}};
+    generateInvoice(obj, data, total)
+    debugger;
   };
   const handleChange = (e) => {
     e.preventDefault();
@@ -100,110 +93,113 @@ export default function FormDialog({
         <DialogTitle>Generar Factura</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Para {userInfo.name !== " "? "generar una factura ": "realizar una actualización"} empieza llenando los campos de
-            abajo.
+            Para{" "}
+            {userInfo.name !== " "
+              ? "generar una factura "
+              : "realizar una actualización"}{" "}
+            empieza llenando los campos de abajo.
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label={`Nombres completos ${userInfo.name}`}
+            label={`Nombres completos ${userInfo.names}`}
             type="text"
             fullWidth
             variant="standard"
             // value={data.size}
             onChange={({ target }) =>
-              setUserInfo(...userInfo, { name: target.value })
+              setUserInfo(...userInfo, { names: target.value })
             }
-            {...register("name")}
+            {...register("names")}
           />
           <Typography
             variant="caption"
             style={{ color: "red" }}
             className="ms-2"
           >
-            {errors.name?.message}
+            {errors.names?.message}
           </Typography>
           <TextField
             margin="dense"
             id="price"
-            label={`Numero de Cedula${userInfo.price}`}
+            label={`Numero de Cedula${userInfo.ci}`}
             type="number"
             fullWidth
             variant="standard"
             // value={data.size}
             onChange={({ target }) =>
-              setUserInfo(...userInfo, { price: target.value })
+              setUserInfo(...userInfo, { ci: target.value })
             }
-            {...register("price")}
+            {...register("ci")}
           />
           <Typography
             variant="caption"
             style={{ color: "red" }}
             className="ms-2"
           >
-            {errors.price?.message}
+            {errors.ci?.message}
+          </Typography>
+          <TextField
+            margin="dense"
+            id="size"
+            label={`Numero de celular ${userInfo.city}`}
+            type="text"
+            fullWidth
+            variant="standard"
+            // value={data.size}
+            onChange={({ target }) =>
+              setUserInfo(...userInfo, { city: target.value })
+            }
+            {...register("city")}
+          />
+          <Typography
+            variant="caption"
+            style={{ color: "red" }}
+            className="ms-2"
+          >
+            {errors.city?.message}
           </Typography>
           <TextField
             margin="dense"
             id="discount"
-            label={`Ciudad${userInfo.discount}`}
-            type="number"
+            label={`Ciudad${userInfo.location}`}
+            type="location"
             fullWidth
             variant="standard"
             // value={data.size}
             onChange={({ target }) =>
-              setUserInfo(...userInfo, { discount: target.value })
+              setUserInfo(...userInfo, { location: target.value })
             }
-            {...register("discount")}
+            {...register("location")}
           />
           <Typography
             variant="caption"
             style={{ color: "red" }}
             className="ms-2"
           >
-            {errors.discount?.message}
+            {errors.location?.message}
           </Typography>
           <TextField
             margin="dense"
             id="stock"
-            label={` Dirección de domicilio${userInfo.stock}`}
+            label={` Dirección de domicilio${userInfo.phone}`}
             type="number"
             fullWidth
             variant="standard"
             // value={data.size}
 
             onChange={({ target }) =>
-              setUserInfo(...userInfo, { stock: target.value })
+              setUserInfo(...userInfo, { phone: target.value })
             }
-            {...register("stock")}
+            {...register("phone")}
           />
           <Typography
             variant="caption"
             style={{ color: "red" }}
             className="ms-2"
           >
-            {errors.stock?.message}
-          </Typography>
-          <TextField
-            margin="dense"
-            id="size"
-            label={`Numero de celular ${userInfo.size}`}
-            type="number"
-            fullWidth
-            variant="standard"
-            // value={data.size}
-            onChange={({ target }) =>
-              setUserInfo(...userInfo, { size: target.value })
-            }
-            {...register("size")}
-          />
-          <Typography
-            variant="caption"
-            style={{ color: "red" }}
-            className="ms-2"
-          >
-            {errors.size?.message}
+            {errors.phone?.message}
           </Typography>
         </DialogContent>
         <DialogActions>

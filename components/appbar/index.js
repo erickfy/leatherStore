@@ -21,6 +21,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import { Grid } from "@mui/material";
 import styles from "./AppBar.module.css";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { useRouter } from 'next/router'
 
 import ManOutlinedIcon from "@mui/icons-material/ManOutlined";
 import WomanOutlinedIcon from "@mui/icons-material/WomanOutlined";
@@ -35,6 +36,8 @@ import jacket from "imgs/jacketIcon.jpg";
 import Image from "next/image";
 import SpeedDial from "components/speedDial"
 import Drawer from "components/drawer"
+import Link from "next/link";
+import { signOut } from "firebase/auth";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -88,10 +91,11 @@ export default function AppBarStore() {
   const isMenuOpenFemale = Boolean(anchorElFemale);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const isMobileMenuOpenLeft = Boolean(mobileMoreAnchorLeft);
+const router = useRouter()
+
   //drawer
   const [openDrawer, setOpenDrawer] = React.useState(false);
   const handleDrawer = (word) => {
-    console.log("hi over there!")
     switch(word){
       case "favorites":
         console.log("favorites");
@@ -155,8 +159,15 @@ export default function AppBarStore() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}><ExitToAppIcon/>Salir</MenuItem>
-      {/* <MenuItem onClick={handleMenuClose}>Mi Cuenta</MenuItem> */}
+      <MenuItem onClick={() => {handleMenuClose();
+       router.push({pathname: '/profile'}) 
+      
+      }}>Mi Cuenta</MenuItem>
+      <MenuItem onClick={() => {handleMenuClose();
+      signOut();
+       router.push({pathname: '/'}) 
+      
+      }}><ExitToAppIcon/>Salir</MenuItem>
     </Menu>
   );
   const renderMenuMale = (
@@ -175,7 +186,9 @@ export default function AppBarStore() {
       open={isMenuOpenMale}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={()=> {handleMenuClose();
+      router.push({pathname: '/categories', query: {gender: "men", type: "coats"}}) 
+      }}>
         <IconButton
           size="large"
           aria-label="show man store"
@@ -185,7 +198,9 @@ export default function AppBarStore() {
         </IconButton>
         Abrigos y Chaquetas
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={()=> {handleMenuClose();
+      router.push({pathname: '/categories', query: {gender: "men", type: "formal_shirts"}}) 
+      }}>
         <IconButton
           size="large"
           aria-label="show discounts"
@@ -195,7 +210,9 @@ export default function AppBarStore() {
         </IconButton>
         Camisas Formales
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={()=> {handleMenuClose();
+      router.push({pathname: '/categories', query: {gender: "men", type: "sportswear"}}) 
+      }}>
         <IconButton
           size="large"
           aria-label="show jackets"
@@ -224,7 +241,9 @@ export default function AppBarStore() {
       open={isMenuOpenFemale}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={()=> {handleMenuClose();
+      router.push({pathname: '/categories', query: {gender: "women", type: "dresses"}}) 
+      }}>
         <IconButton
           size="large"
           aria-label="show store"
@@ -234,7 +253,9 @@ export default function AppBarStore() {
         </IconButton>
         <p>Vestidos</p>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={()=> {handleMenuClose();
+      router.push({pathname: '/categories', query: {gender: "women", type: "jeans"}}) 
+      }}>
         <IconButton
           size="large"
           aria-label="show discount"
@@ -244,7 +265,9 @@ export default function AppBarStore() {
         </IconButton>
         Jeans de Mujer
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem onClick={()=> {handleMenuClose();
+      router.push({pathname: '/categories', query: {gender: "women", type: "makeup"}}) 
+      }}>
         <IconButton
           size="large"
           aria-label="show room"
@@ -374,6 +397,14 @@ useEffect(() => {
           >
             <MenuIcon />
           </IconButton>
+
+          <Link
+                href={{
+                  pathname: "/dashboard",
+                }}
+                style={{cursor:"pointer"}}
+              >
+                <div className={styles.containerMark}>
           <Grid sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}>
             <Image
               src={jacket}
@@ -388,8 +419,11 @@ useEffect(() => {
             component=""
             sx={{ display: { xs: "none", md: "block" } }}
           >
-            TODO CUERO
+            STORE KIMKOM
           </Typography>
+          </div>
+          </Link>
+
           {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
