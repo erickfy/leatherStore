@@ -1,3 +1,14 @@
+## Proyecto TIC eCommerce :heart:
+#### Este proyecto esta integrado con React y especializado para realizar compras de productos clasificados por categorias. Los roles para el uso de esta plataforma son: 
+- Cliente
+- Administrador
+### Anexos
+#### A continuación se presenta las intrucciones para poder entender el uso de la aplicación web.
+- [Manual Técnico](https://drive.google.com/file/d/1vR_7k6HizL6-OaZu9WHLz9l4_myBPALF/view?usp=sharing)
+- [Manual de Usuario]()
+### Sistema web en la web
+#### El siguiente enlace esta desplegado la aplicación web en funcionamiento o producción: 
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
