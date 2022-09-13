@@ -87,7 +87,7 @@ export default function Login(props) {
           console.log(user);
           setError("");
 
-          router.push("/categories");
+          router.push("/dashboard");
         } catch (error) {
           console.log(error.message);
           setError("Usuario no registrado");
